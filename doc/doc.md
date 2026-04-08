@@ -11,49 +11,48 @@
 
 ## Introducción
 
-> Profundiza en la descripción de tu proyecto más allá de lo que has puesto en el README
+Este proxecto consiste no deseño e desenvolvemento dunha plataforma web integral para a xestión e reserva de pistas de deportes de 
+raqueta (tenis e pádel). A diferenza de sistemas de reserva xenéricos, esta aplicación busca crear un ecosistema que conecte directamente 
+a centros deportivos con xogadores, facilitando non só a parte administrativa, senón tamén a social e competitiva. 
+A ferramenta ofrecerá interfaces diferenciadas para dous perfís principais: o xogador, que busca comodidade e comunidade; 
+e o administrador do club, que necesita control total sobre o seu negocio.
 
 ## Estado de arte o análisis del contexto
 
-> A quen vai destinada a aplicación? (Contexto social ou sector empresarial, tipo de persoas, ...)
-Cal é a necesidade ou necesidades que se pretenden cubrir ou satisfacer?
-Existen na actualidade aplicacións que tenten dar resposta a esa(s) necesidade(s)? En que medida o conseguen?
-O desenvolvemento da aplicación abre unha oportunidade de negocio? É posible comercializala? Como?
+* **Contexto social:** O auxe dos deportes de raqueta nos últimos anos xerou unha alta demanda de pistas. Os usuarios actuais buscan inmediatez e fuxen das reservas telefónicas ou presenciais.
+* **Necesidades a cubrir:**
+    * Para o xogador: Atopar pistas dispoñibles en tempo real, organizar torneos de forma sinxela e interactuar con outros xogadores.
+    * Para o dono: Dixitalizar a axenda, evitar pistas baleiras e obter métricas de rendemento do club.
+* **Competencia:** Existen aplicacións como Playtomic. Aínda que son eficaces, moitos clubs pequenos buscan solucións máis personalizadas ou con menores comisións por reserva. Este proxecto busca replicar as funcións core cun enfoque máis centrado na analítica para o dono.
+* **Oportunidade de negocio:** É un modelo SaaS (*Software as a Service*) escalable. Pódese comercializar mediante unha subscrición mensual para os clubs ou unha pequena comisión por transacción de reserva.
 
 ## Propósito
-
-> En que consiste mi proyecto? Cuál es el propósito u objetivo principal del software desarrollado?
-> Esto lo debes tener claro desde el principio y **no es muy susceptible a cambiar**.
+O propósito principal é centralizar a xestión deportiva de centros de tenis e pádel nunha aplicación web intuitiva, optimizando o proceso de reserva para o cliente final e profesionalizando a administración diaria para os propietarios dos clubs.
 
 ## Objetivos
 
-> A partir del objetivo principal o propósito qué debes lograr en forma de subobjetivos
-> Esto es un apartado "vivo" que debes estar reajustando constantemente en tu avance.
-> Conforme vayas proponiendo cosas y consiguiéndolas, márcalas como objetivos, ya sea porque has conseguido implementar una funcionalidad o porque hayas comprendido cómo iniciar un proyecto con react o vue.
-> Las tareas generalmente salen de la definición de estos objetivos. Para lograr un objetivo, habitualmente suele suponer la realización de una o varias tareas.
-
+* **Desenvolvemento técnico:**
+    * Implementar un sistema de autenticación seguro con diferentes roles (Xestor / Cliente).
+    * Crear un calendario dinámico para a reserva de pistas en tempo real.
+    * Deseñar un panel de control para os donos con gráficas de ocupación.
+    * Desenvolver un módulo de creación e xestión de torneos.
+    * No caso de ser posible por cuestións de tempo, levar a cabo a implementación de un chat en tempo real xogador-xogador e xogador-xestor.
+* **Aprendizaxe persoal:**
+    * Dominar as tecnoloxías Angular, Springboot, Tailwind e Figma, así como librerías de gráficas e a xestión de pagos.
+    * Mellorar no ámbito de seguimento de tarefas e xestión de proxectos.
 ## Alcance
 
-> Delimitar lo que el proyecto incluye
-> Describir qué funcionalidades sí estarán implementadas.
->
-> Explicar hasta dónde llega el desarrollo (ej.: solo módulo autenticación básica sin implementar roles de usiario, sin personalización del estilo de la aplicación, etc. etc.).
->
-> Indicar qué usuarios o perfiles podrán usar la aplicación y cuáles no.
->
-> Señalar el contexto en el que se aplicará (ej.: entorno académico, startup o emprendimiento, prueba de concepto).
->
->Indicar lo que queda fuera (límites)
->
-> Explicar de forma explícita qué no se abordará aunque podría ser una mejora futura (esto evita expectativas poco realistas y muestra capacidad de acotar el trabajo).
-> Ser concreto y medible. Usar frases que definan claramente los límites: Por ejemplo:
->
-> - “El sistema permitirá registrar usuarios y gestionar roles básicos, pero no incluirá autenticación multifactor.”
->
-> - “Se desarrollará un prototipo funcional con datos de prueba, no una versión en producción.”
->
-> Relacionar el alcance con el tiempo y recursos disponibles. Justificar por qué se fijan esos límites (ej.: “debido al tiempo de desarrollo limitado, se implementará solo la versión de escritorio”).
+### O que inclúe:
+* **Módulo de Clientes:** Rexistro, procura de pistas dispoñibles por data/hora, confirmación de reservas e historial de partidos.
+* **Módulo de Administración:** Xestión de pistas (crear/editar/borrar), visualización de reservas en formato lista e calendario, e xeración de informes en PDF.
+* **Módulo Social:** Sistema de clasificación/ranking de xogadores baseado en resultados subidos, sistema de amizades entre xogadores con publicación de fotos e textos cos que poder interactuar e sistema de valoración de instalacións (1-5 estrelas).
+* **Analítica:** Panel visual con gráficas de ingresos e horas de maior ocupación.
 
+### O que queda fóra:
+* **Chat en tempo real:** Queda marcado como unha mellora futura dependente do tempo dispoñible.
+* **Pasarela de pago real:** Realizarase unha simulación de pago, pero non se integrará con Stripe ou PayPal nesta fase por seguridade e custes.
+* **Aplicación Móbil Nativa:** O proxecto centrarase nunha web *responsive* optimizada para móbiles, pero non nunha app de iOS/Android. No caso de seguir
+desenvolvendo o proxecto, planificarase unha app para Android.
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
 > Hemos elaborado un [checklist](checklist.md) de puntos necesarios para tu PFC, para que revises estas recomendaciones/especificaciones.
