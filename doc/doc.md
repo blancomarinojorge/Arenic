@@ -1,4 +1,4 @@
-# Título de tu proyecto
+# Xestión de reservas de pistas deportivas
 
 - [Introducción](#introducción)
 - [Estado de arte o análisis del contexto](#estado-de-arte-o-análisis-del-contexto)
@@ -11,11 +11,21 @@
 
 ## Introducción
 
-Este proxecto consiste no deseño e desenvolvemento dunha plataforma web integral para a xestión e reserva de pistas de deportes de 
-raqueta (tenis e pádel). A diferenza de sistemas de reserva xenéricos, esta aplicación busca crear un ecosistema que conecte directamente 
-a centros deportivos con xogadores, facilitando non só a parte administrativa, senón tamén a social e competitiva. 
-A ferramenta ofrecerá interfaces diferenciadas para dous perfís principais: o xogador, que busca comodidade e comunidade; 
-e o administrador do club, que necesita control total sobre o seu negocio.
+O presente proxecto ten como obxectivo principal o deseño e desenvolvemento dunha **aplicación web** destinada á reserva e xestión integral de instalacións deportivas. A proposta xorde da necesidade de modernizar a interacción entre os centros deportivos e os seus usuarios, eliminando as barreiras administrativas e fomentando a creación dunha comunidade activa e conectada.
+
+### Funcionalidades para o Usuario (Xogadores)
+A aplicación foi concibida baixo unha filosofía *mobile-first*, garantindo unha experiencia de usuario intuitiva e fluída desde calquera dispositivo móbil. Entre as súas capacidades destacan:
+
+* **Sistema de Reservas:** Proceso simplificado para a selección de pistas e horarios en tempo real.
+* **Xestión de Competicións:** Ferramentas para a organización e participación en torneos, permitindo un seguimento dinámico de cadros de xogo e clasificacións.
+* **Perfil Social e Gamificación:** Os usuarios poderán monitorizar os seus progresos persoais, comparar estatísticas cos perfís da comunidade e outorgar puntuacións aos clubs baseándose na calidade das súas instalacións e servizos.
+
+### Panel de Control para Administradores (Clubs)
+Para os propietarios e xestores de centros, a plataforma ofrece un **ecosistema de administración robusto** que permite un control total sobre a operativa diaria:
+
+* **Dashboard Analítico:** Visualización de datos clave mediante gráficos interactivos que facilitan a toma de decisións estratéxicas.
+* **Control de Finanzas:** Xestión automatizada de reservas e fluxos de pago de forma segura.
+* **Explotación de Datos:** Capacidade para xerar e imprimir informes detallados sobre o rendemento do club, a ocupación das pistas e as métricas de usuarios.
 
 ## Estado de arte o análisis del contexto
 
@@ -50,7 +60,7 @@ O propósito principal é centralizar a xestión deportiva de centros de tenis e
 
 ### O que queda fóra:
 * **Chat en tempo real:** Queda marcado como unha mellora futura dependente do tempo dispoñible.
-* **Pasarela de pago real:** Realizarase unha simulación de pago, pero non se integrará con Stripe ou PayPal nesta fase por seguridade e custes.
+* **Pasarela de pago real:** Realizarase unha simulación de pago, pero non se integrará con Stripe ou PayPal nesta fase.
 * **Aplicación Móbil Nativa:** O proxecto centrarase nunha web *responsive* optimizada para móbiles, pero non nunha app de iOS/Android. No caso de seguir
 desenvolvendo o proxecto, planificarase unha app para Android.
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
