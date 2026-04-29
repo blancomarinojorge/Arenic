@@ -76,3 +76,13 @@ desenvolvendo o proxecto, planificarase unha app para Android.
 ## Referencias, Fuentes consultadas y Recursos externos: Webgrafía
 
 > *TODO*: Enlaces externos y descipciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
+
+
+---
+
+# Análisis e deseño
+
+## Análisis de requisitos
+
+X é unha aplicación creada para axilizar a xestión de resevas de pistas deportivas e
+facilitar a xestión de torneos
