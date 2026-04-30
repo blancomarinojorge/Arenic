@@ -5,6 +5,9 @@
 - [Propósito](#propósito)
 - [Objetivos](#objetivos)
 - [Alcance](#alcance)
+- [Análise](#análise)
+  - [Requerimentos e funcionalidades](#requerimentos-e-funcionalidades)
+  - Base de datos
 - [TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación](#todo-a-partir-de-este-punto-eres-libre-de-organizar-la-documentación-como-estimes-pero-debes-desarrollar-el-cuerpo-de-tu-proyecto-con-apartados-y-subapartados-que-completen-tu-documentación)
 - [Conclusiones](#conclusiones)
 - [Referencias, Fuentes consultadas y Recursos externos: Webgrafía](#referencias-fuentes-consultadas-y-recursos-externos-webgrafía)
@@ -63,6 +66,49 @@ O propósito principal é centralizar a xestión deportiva de centros de tenis e
 * **Pasarela de pago real:** Realizarase unha simulación de pago, pero non se integrará con Stripe ou PayPal nesta fase.
 * **Aplicación Móbil Nativa:** O proxecto centrarase nunha web *responsive* optimizada para móbiles, pero non nunha app de iOS/Android. No caso de seguir
 desenvolvendo o proxecto, planificarase unha app para Android.
+
+---
+
+# Análise
+
+## Requerimentos e funcionalidades
+
+A funcionalidade principal da aplicación é a xestión flexible e segura
+de pistas deportivas de distintos clubes. Para iso, debense cumplir os seguintes requerimentos:
+
+Contará con **clubes** deportivos, dos cales nos interesa saber o seu nome e dirección, ademais
+de poder saber se se atopa ou non activo. Cada clube poderá ter varias **pistas**, das cales
+sabemos o tipo de pista, nome e número de pista. A creación de horarios e prezos das pistas
+debe ser flexible e permitir a visualización de datos históricos, podendo variar por día da semana
+e hora.
+
+Dos **usuarios** interesanos saber o nome completo, email, contrasinal e teléfono móvil. Poderán
+estar relacionados con un ou varios clubes, podendo ter varios roles (DONO, EMPREGADO, ENTRENADOR, MEMBRO)
+dentro de un clube. Por exemplo, un usuario pode ser dono e entrenador de un clube, o cal lle dará
+a posibilidade de dar clases e consultar as análiticas. Ao mesmo tempo pode ser membro de outro clube, o cal
+lle permitirá facer reservas con un prezo mais reducido. Un clube sempre terá un usuario creador, o
+cal non poderá ser borrado ata a eliminación do clube.
+
+Poderanse realizar **reservas** nas pistas dispoñibles, sendo posible a participación de varios
+usuarios na mesma. A aplicación permitirá que os usuarios participantes divídan o custo da reserva,
+deixandolles pagar só a sua parte, o prezo completo, ou elixir se queren pagar por algún dos participantes. 
+No caso de que algún deles non realice o pago antes da hora posterior a finalización da reserva,
+será o usuario que a creou quen pague o restante.
+
+Para facilitar o sistema de pago, os usuarios poderán rexistrar varios **metodos de pago** cos cales
+realizar as reservas.
+
+
+
+
+## Base de datos
+
+Para satisfacer todos os requerimentos funcionales deseñouse o seguinte esquema Entidade-Relación.
+
+![ER diagram.png](img/database/ER%20diagram.png)
+
+---
+
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
 > Hemos elaborado un [checklist](checklist.md) de puntos necesarios para tu PFC, para que revises estas recomendaciones/especificaciones.
