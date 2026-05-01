@@ -98,7 +98,8 @@ será o usuario que a creou quen pague o restante.
 Para facilitar o sistema de pago, os usuarios poderán rexistrar varios **metodos de pago** cos cales
 realizar as reservas.
 
-
+Deseñarase a base de datos tendo en mente que mais adiante se engadiran partidos, entrenos e torneos, entidades que terán
+que relacionarse coa tabla de reservas para xestionar a reserva dos participantes.
 
 
 ## Base de datos
