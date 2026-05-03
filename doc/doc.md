@@ -1,4 +1,4 @@
-# Xestión de reservas de pistas deportivas
+# Arenic, xestión de reservas de pistas deportivas
 
 - [Introducción](#introducción)
 - [Estado de arte o análisis del contexto](#estado-de-arte-o-análisis-del-contexto)
@@ -107,6 +107,58 @@ Para satisfacer todos os requerimentos funcionales deseñouse o seguinte esquema
 
 ![ER diagram.png](img/database/ER%20diagram.png)
 
+## Desarrollo
+
+Utilizaranse o seguinte stack tecnolóxico:
+
+- Springboot 3.5.14 con Java 21
+- Angular 18
+- PostgreSQL 17
+- Docker
+- Github Actions para o despregue. 
+  - Jenkins levaría demasiado tempo de configuración e mantemento.
+  - Gitlab CI sería a opción mais optima neste caso, pero ao estar enlazado a miña conta de instituto tería que pasar o
+  proxecto a github unha vez finalizado o curso, tendo que facer a migración a Github Actions para poder seguin facendo
+  cambios na aplicación no futuro.
+
+### Creacion de repositorio github
+
+Crease un novo repositorio en github para poder usar github actions e configurase git en local para subir os cambios en ambos repositorios:
+
+```shell
+git remote add github git@github.com:blancomarinojorge/Arenic.git
+git remote set-url --add --push origin git@github.com:blancomarinojorge/Arenic.git
+git remote set-url --add --push origin ssh://git@gitlab.iessanclemente.net:60600/dawd/a17jorgebm1.git
+```
+
+
+## Base do deseño UI e identidade da empresa
+
+### Nome da aplicación
+
+Quero que a aplicación se sinta sofisticada e premium, facendo referencia a elegancia dos deportes de raqueta. Ao mesmo
+tempo ten que transmitir a rapidez e a emoción do deporte.
+
+Opcions:
+ - Terra
+ - Arenic
+ - YourCourt
+ - OpenCourt
+
+Finalmente decidese o nome **Arenic**, o can fai referencia as pistas de terra batida e as areas nas que se disputan enfrentamentos. Fixose unha busqueda do uso da palabra en outros ámbitos ou aplicacións, sendo esta a menos utilizada e a que mais pode definir a empresa no mercado, dandolle dende un comezo un nome recoñecible e diferenciable.
+
+### Logo
+
+A partir do nome da empresa faise o deseño do logo en figma e gimp, usando a plataforma pinterest como referencia de outros deseños. A continuación mostrase un resumo do proceso de creación a partir de unha imaxe base modificada para satisfacer os requisitos da nosa marca.
+
+![logo_process.png](img/ui/brand/logo_process.png)
+
+Logo final:
+
+![logo_final.png](img/ui/brand/logo_final.png)
+
+
+
 ---
 
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
@@ -122,13 +174,3 @@ Para satisfacer todos os requerimentos funcionales deseñouse o seguinte esquema
 ## Referencias, Fuentes consultadas y Recursos externos: Webgrafía
 
 > *TODO*: Enlaces externos y descipciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
-
-
----
-
-# Análisis e deseño
-
-## Análisis de requisitos
-
-X é unha aplicación creada para axilizar a xestión de resevas de pistas deportivas e
-facilitar a xestión de torneos
