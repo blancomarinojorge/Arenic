@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: myappdb
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    # I don't actually want to expose the port to the internet, so I only map the port to localhost.
+    # This way, we can access this port via SSH to the VPS but keeping it secure.
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: ${DOCKERHUB_USERNAME}/arenic-backend:latest
+    container_name: spring_backend
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/myappdb
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  frontend:
+    image: ${DOCKERHUB_USERNAME}/arenic-frontend:latest
+    container_name: angular_frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # This allows Nginx to see the certificates Certbot saved to the VPS disk
+      - ./certbot/conf:/etc/letsencrypt:ro
+      # This allows Nginx to serve the challenge files Certbot drops in
+      - ./certbot/www:/var/www/certbot:ro
+
+volumes:
+  postgres_data:

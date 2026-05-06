@@ -7,7 +7,14 @@
 - [Alcance](#alcance)
 - [Análise](#análise)
   - [Requerimentos e funcionalidades](#requerimentos-e-funcionalidades)
-  - Base de datos
+  - [Base de datos](#base-de-datos)
+  - [Desarrollo](#desarrollo)
+    - [Creacion de repositorio github](#creacion-de-repositorio-github)
+    - [Creacion de VPS e dominio](#creacion-de-vps-en-digitalocean-e-dominio-en-namecheap)
+  - [Base do deseño UI e identidade da empresa](#base-do-deseño-ui-e-identidade-da-empresa)
+    - [Nome da aplicación](#nome-da-aplicación)
+    - [Logo](#logo)
+- [Configuración do entorno]
 - [TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación](#todo-a-partir-de-este-punto-eres-libre-de-organizar-la-documentación-como-estimes-pero-debes-desarrollar-el-cuerpo-de-tu-proyecto-con-apartados-y-subapartados-que-completen-tu-documentación)
 - [Conclusiones](#conclusiones)
 - [Referencias, Fuentes consultadas y Recursos externos: Webgrafía](#referencias-fuentes-consultadas-y-recursos-externos-webgrafía)
@@ -114,12 +121,13 @@ Utilizaranse o seguinte stack tecnolóxico:
 - Springboot 3.5.14 con Java 21
 - Angular 18
 - PostgreSQL 17
-- Docker
+- Docker e DockerHub
 - Github Actions para o despregue. 
   - Jenkins levaría demasiado tempo de configuración e mantemento.
   - Gitlab CI sería a opción mais optima neste caso, pero ao estar enlazado a miña conta de instituto tería que pasar o
   proxecto a github unha vez finalizado o curso, tendo que facer a migración a Github Actions para poder seguin facendo
   cambios na aplicación no futuro.
+- DigitalOcean VPS
 
 ### Creacion de repositorio github
 
@@ -131,6 +139,27 @@ git remote set-url --add --push origin git@github.com:blancomarinojorge/Arenic.g
 git remote set-url --add --push origin ssh://git@gitlab.iessanclemente.net:60600/dawd/a17jorgebm1.git
 ```
 
+### Creacion de VPS en Digitalocean e dominio en NameCheap
+
+Crease o vps para o proxecto.
+
+```text
+206.189.18.120
+arenic.online
+```
+
+Configurase o dominio para que apunte ao VPS:
+
+| Type | Host | Value | TTL |
+| :--- | :--- | :--- | :--- |
+| A Record | www | 206.189.18.120 | 30 min |
+| A Record | @ | 206.189.18.120 | 30 min |
+
+
+- [ ] facendo para acabar coa CI de github actions, mirar e preguntar se
+esta usando o tema do dominio, que para eso o comprei, redirigir todo a 
+443 para que a conexion sexa segura
+- [ ] unha vez acabado esto, montar os proyectos de springboot e angular
 
 ## Base do deseño UI e identidade da empresa
 
@@ -157,9 +186,85 @@ Logo final:
 
 ![logo_final.png](img/ui/brand/logo_final.png)
 
-
-
 ---
+
+# Configuración do entorno
+
+- [ ] Configuración do VPS
+- [ ] Creación de repositiorios en DockerHub
+- [ ] Configuración de github actions
+
+## Configuración do VPS
+
+Usarase un único servidor VPS tanto para o frontend como para o backend e configurarase para que use
+unha conexión segura mediante o porto 443 facendo que un servidor nginx redirixa a este porto todas
+as peticións provintes do 80.
+
+Como o servidor VPS ten poucos recursos, tomouse a decisión de montar as imaxes dende a pipeline de github e subir as imaxes dos contedores
+a DockerHub, de esta maneira o VPS só descarga os contedores e iniciaos, gastando moitos menos recursos.
+
+1.  **Facemos update e instalamos Docker:**
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install ca-certificates curl gnupg lsb-release -y
+    # Add Docker’s official GPG key
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    # Set up the repository
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt update
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+    ```
+2.  Crease o usuario `deployer`:
+    ```bash
+    adduser deployer
+    usermod -aG sudo,docker deployer
+    ```
+3.  **Crease o directorio da aplicación, onde se subirán os cambios e se atopará o arquivo `.env`, arquivo necesario para que funcione docker-compose no momento de facer o despregue. É o único arquivo que se subirá manualmente por motivos de seguridade:**
+    ```bash
+    mkdir -p /home/deployer/app
+    chown deployer:deployer /home/deployer/app
+    ```
+4. Como usuario **deployer** creo e configuro o arquivo .env:
+    ```bash
+    nano /home/deployer/app/.env
+    ```
+5. Indicar que no docker-compose limitase o acceso público a base de datos, solo deixando acceder mediante dende localhost (para acceder a do VPS usarase SSH):
+    ```yaml
+    # I don't actually want to expose the port to the internet, so I only map the port to localhost.
+    # This way, we can access this port via SSH to the VPS but keeping it secure.
+    ports:
+      - "127.0.0.1:5432:5432"
+    ```
+   
+### Configuración nginx con SSL
+
+Para servir as peticións ao exterior contaremos con un contedor docker de nginx, configurado na carpeta
+_/frontend/nginx.conf_. Configurarase para que sirva as peticións dirixidas a `/` ao frontend e `/api` ao
+backend. Para configurar SSL usarase **certbot**.
+
+1. Faise o deployment por primeira vez tendo solo a configuración para o porto **80** en nginx.
+    ```text
+    server {
+        listen 80;
+        server_name arenic.online www.arenic.online;
+    
+        # Certbot challenge location
+        location /.well-known/acme-challenge/ {
+            root /var/www/certbot;
+        }
+    
+        # Redirect all HTTP traffic to HTTPS
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+    ```
+2. Creanse as carpetas donde certbot deixará os ficheiros, para que docker non as cree automaticamente con permisos de root.
+    ```bash
+   #como usuario deployer
+    mkdir -p /home/deployer/app/certbot/conf /home/deployer/app/certbot/www
+    ```
 
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
@@ -174,3 +279,6 @@ Logo final:
 ## Referencias, Fuentes consultadas y Recursos externos: Webgrafía
 
 > *TODO*: Enlaces externos y descipciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
+
+- [Deploy con Docker y Ubuntu en 5 minutos (y mas) - Nginx y Certbot](https://www.youtube.com/watch?v=Hz_Jr2I_n8w)
+- [Crash course Angular](https://www.youtube.com/watch?v=oUmVFHlwZsI&t=628s)
