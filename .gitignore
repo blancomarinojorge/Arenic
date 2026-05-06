@@ -55,3 +55,4 @@ coverage
 
 # Incluye los ignores que consideres a partir de aquí
 doc/docsPersonales
+certbot/
