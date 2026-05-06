@@ -23,14 +23,14 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-backend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/arenic-backend:latest
 
       - name: Build & Push Frontend (Angular 18)
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-frontend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/arenic-frontend:latest
 
       #In the server we just need the .env and docker-compose file already in the folder
       #By uploading the docker-compose the only file we have to upload manually is the .env file. For security reasons it's better to do it that way.
@@ -39,7 +39,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          key: ${{ secrets.VPS_SSH_KEY }} #REMEMBER that the key has to be in /home/${VPS_USER}/.ssh/authorized_keys or it won't work
           source: "docker-compose.yml"
           target: "/home/deployer/app/"
 

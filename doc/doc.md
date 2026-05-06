@@ -220,6 +220,22 @@ a DockerHub, de esta maneira o VPS só descarga os contedores e iniciaos, gastan
     adduser deployer
     usermod -aG sudo,docker deployer
     ```
+3. Configuro a clave publica ssh no usuario deployer para poder acceder con el por ssh:
+    ```bash
+    # 1. Create the .ssh directory for the deployer user (if it doesn't exist)
+    mkdir -p /home/deployer/.ssh
+    
+    # 2. Copy the authorized_keys from root to deployer
+    cp /root/.ssh/authorized_keys /home/deployer/.ssh/
+    
+    # 3. Change ownership so the 'deployer' user actually owns the file
+    chown -R deployer:deployer /home/deployer/.ssh
+    
+    # 4. Set the strict permissions SSH requires
+    chmod 700 /home/deployer/.ssh
+    chmod 600 /home/deployer/.ssh/authorized_keys
+    ```
+
 3.  **Crease o directorio da aplicación, onde se subirán os cambios e se atopará o arquivo `.env`, arquivo necesario para que funcione docker-compose no momento de facer o despregue. É o único arquivo que se subirá manualmente por motivos de seguridade:**
     ```bash
     mkdir -p /home/deployer/app
