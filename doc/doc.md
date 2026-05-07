@@ -259,7 +259,13 @@ Para servir as peticións ao exterior contaremos con un contedor docker de nginx
 _/frontend/nginx.conf_. Configurarase para que sirva as peticións dirixidas a `/` ao frontend e `/api` ao
 backend. Para configurar SSL usarase **certbot**.
 
-1. Faise o deployment por primeira vez tendo solo a configuración para o porto **80** en nginx.
+1. Creanse as carpetas donde certbot deixará os ficheiros, para que docker non as cree automaticamente con permisos de root.
+    ```bash
+   #como usuario deployer
+    mkdir -p /home/deployer/app/certbot/conf /home/deployer/app/certbot/www
+    ```
+
+2. Faise o deployment por primeira vez tendo solo a configuración para o porto **80** en nginx.
     ```text
     server {
         listen 80;
@@ -276,11 +282,21 @@ backend. Para configurar SSL usarase **certbot**.
         }
     }
     ```
-2. Creanse as carpetas donde certbot deixará os ficheiros, para que docker non as cree automaticamente con permisos de root.
+
+3. Generanse as claves SSL e descomentase a configuración para https de nginx:
+
     ```bash
-   #como usuario deployer
-    mkdir -p /home/deployer/app/certbot/conf /home/deployer/app/certbot/www
+    docker run -it --rm --name certbot -v "/home/deployer/app/certbot/conf:/etc/letsencrypt" -v "/home/deployer/app/certbot/www:/var/www/certbot" certbot/certbot certonly --webroot -w /var/www/certbot -d arenic.online -d www.arenic.online
     ```
+   
+4. Configuro o porto 433 na configuración de nginx e fago commit para que se volva a facer o despregue, esta vez co ssl habilitado:
+
+
+   
+
+DIOOOOOS solo me queda generar o do comando este que me fallou, descomentar as liñas no nginx.conf
+e volver a subir o codigo, debería funciona
+
 
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
