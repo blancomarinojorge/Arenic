@@ -190,10 +190,6 @@ Logo final:
 
 # Configuración do entorno
 
-- [ ] Configuración do VPS
-- [ ] Creación de repositiorios en DockerHub
-- [ ] Configuración de github actions
-
 ## Configuración do VPS
 
 Usarase un único servidor VPS tanto para o frontend como para o backend e configurarase para que use
@@ -292,12 +288,6 @@ backend. Para configurar SSL usarase **certbot**.
 4. Configuro o porto 433 na configuración de nginx e fago commit para que se volva a facer o despregue, esta vez co ssl habilitado:
 
 
-   
-
-DIOOOOOS solo me queda generar o do comando este que me fallou, descomentar as liñas no nginx.conf
-e volver a subir o codigo, debería funciona
-
-
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
 > Hemos elaborado un [checklist](checklist.md) de puntos necesarios para tu PFC, para que revises estas recomendaciones/especificaciones.
@@ -314,3 +304,4 @@ e volver a subir o codigo, debería funciona
 
 - [Deploy con Docker y Ubuntu en 5 minutos (y mas) - Nginx y Certbot](https://www.youtube.com/watch?v=Hz_Jr2I_n8w)
 - [Crash course Angular](https://www.youtube.com/watch?v=oUmVFHlwZsI&t=628s)
+- [Install letsencrypt](https://www.inmotionhosting.com/support/website/ssl/lets-encrypt-ssl-ubuntu-with-certbot/)
