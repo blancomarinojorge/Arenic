@@ -285,7 +285,183 @@ backend. Para configurar SSL usarase **certbot**.
     docker run -it --rm --name certbot -v "/home/deployer/app/certbot/conf:/etc/letsencrypt" -v "/home/deployer/app/certbot/www:/var/www/certbot" certbot/certbot certonly --webroot -w /var/www/certbot -d arenic.online -d www.arenic.online
     ```
    
-4. Configuro o porto 433 na configuración de nginx e fago commit para que se volva a facer o despregue, esta vez co ssl habilitado:
+4. Configuro o porto 433 na configuración de nginx e fago commit para que se volva a facer o despregue, esta vez co ssl habilitado.
+
+## Entorno local
+
+No entorno de desarrollo usaremos o arquivo `docker-compose.local.yml`, que unicamente conten o contedor para lanzar a base de datos PostgreSQL. Para lanzalo:
+
+```shell
+#dende a carpeta raíz do proxecto
+docker compose -f docker-compose.local.yml up -d
+```
+
+Para correr as aplicacións, debugear e desarrollar usaremos as ferramentas de java e angular respectivamente.
+
+```shell
+#no caso de querer compilar o proxecto backend dende terminal
+mvn clean install
+java -jar target/backend-0.0.1-SNAPSHOT.jar
+```
+
+## Migracions
+
+Para as migracions usarase **Flyway**, o can nos permite gardar un historial dos cambios da nosa base de datos na taboa `/resources/db/migration` e executando os scripts que sean necesarios cada vez que se reinicie a aplicación.
+
+Escollese esta ferramenta antes que depender de **Hibernate** xa que deixa unha traza dos cambios ao longo do tempo en arquivos `.sql,` permitindo facer migracións sen necesidade da aplicación.
+
+### Tests e local
+
+Por defecto, Flyway non permite borrar un arquivo de migración unha vez executado. Para facer probas e non ter que deixar un rastro de arquivos de proba podese executar este comando para resetear o seguimento de flyway e poder borrar arquivos:
+
+```shell
+./mvnw flyway:clean -Dspring.flyway.url=jdbc:postgresql://localhost:5432/myappdb -Dspring.flyway.user=your_user -Dspring.flyway.password=your_password
+```
+
+---
+
+# Backend - Springboot
+
+## Estructura 
+
+Optarase por un **Monolito Modular** para a estructura do backend, separando as distintas unidades de negocio claves da aplicación en módulos separados.
+Con esto o que se pretende é seguir o principio de **única responsabilidade**, facendo que os módulos non dependan estreitamente uns dos outros e conseguindo que
+a aplicación mais sexa mais escalable no caso de ser preciso nun futuro. Cada un dos módulos só se comunicará cos demais mediante os _Services_ dispoñibles e nunca
+accederán ao _Repository_ ou farán consultas sql as taboas dos módulos externos.
+
+Contaremos con 4 módulos principais:
+
+* **Identity**: encargado da xestión de usuarios e acceso a aplicación
+* **Club**: CRUD de Clubs, Pistas, Membresías e regras de prezos e horarios.
+* **Booking**: xestionará as reservas. 
+* **Payment**: xestionará os pagos e as conexións coas apis bancarias.
+
+
+Quedando unha estructura inicial:
+
+```text
+com.arenic.backend/
+├── common/                               # Lóxica compartida
+│   ├── exception/
+│   │   ├── BusinessException.java
+│   │   ├── GlobalExceptionHandler.java
+│   │   └── ResourceNotFoundException.java
+│   ├── dto/
+│   │   ├── ApiResponse.java
+│   │   └── ErrorResponse.java
+│   └── util/
+│       ├── DateTimeUtils.java
+│       └── PaginationUtils.java
+│
+├── config/                               # Configuración da infraestructura
+│   ├── security/
+│   │   ├── JwtAuthenticationFilter.java
+│   │   ├── SecurityConfig.java
+│   │   └── UserPrincipal.java
+│   └── persistence/
+│       ├── JpaAuditConfig.java
+│       └── DataSourceConfig.java
+│
+├── modules/                              # Módulos de negocio
+│   ├── identity/                         
+│   │   ├── api/                          # Api
+│   │   │   ├── IdentityService.java
+│   │   │   └── UserDTO.java
+│   │   └── internal/                     # Implementación oculta
+│   │       ├── controller/
+│   │       │   └── AuthController.java
+│   │       ├── model/
+│   │       │   └── User.java
+│   │       ├── repository/
+│   │       │   └── UserRepository.java
+│   │       └── service/
+│   │           └── IdentityServiceImpl.java
+│   │
+│   ├── club/                             
+│   │   ├── api/                          
+│   │   │   ├── ClubService.java
+│   │   │   ├── CourtDTO.java
+│   │   │   └── MembershipDTO.java
+│   │   └── internal/                     
+│   │       ├── controller/
+│   │       │   ├── ClubController.java
+│   │       │   └── CourtController.java
+│   │       ├── model/
+│   │       │   ├── Club.java
+│   │       │   ├── Court.java
+│   │       │   ├── Membership.java
+│   │       │   ├── MembershipId.java
+│   │       │   └── PriceConfiguration.java
+│   │       ├── repository/
+│   │       │   ├── ClubRepository.java
+│   │       │   ├── CourtRepository.java
+│   │       │   └── MembershipRepository.java
+│   │       └── service/
+│   │           ├── ClubServiceImpl.java
+│   │           └── PricingCalculator.java
+│   │
+│   ├── booking/                          
+│   │   ├── api/                          
+│   │   │   ├── BookingService.java
+│   │   │   └── BookingDTO.java
+│   │   └── internal/                     
+│   │       ├── controller/
+│   │       │   └── BookingController.java
+│   │       ├── model/
+│   │       │   └── Booking.java          
+│   │       ├── repository/
+│   │       │   └── BookingRepository.java
+│   │       ├── mapper/
+│   │       │   └── BookingDataStitcher.java
+│   │       └── service/
+│   │           └── BookingServiceImpl.java
+│   │
+│   └── payment/                          
+│       ├── api/                          
+│       │   ├── PaymentService.java
+│       │   └── PaymentStatusDTO.java
+│       └── internal/                     
+│           ├── controller/
+│           │   └── PaymentWebhookController.java
+│           ├── model/
+│           │   └── Payment.java          
+│           ├── repository/
+│           │   └── PaymentRepository.java
+│           ├── gateway/
+│           │   ├── StripeProvider.java
+│           │   └── PaymentGatewayInterface.java
+│           └── service/
+│               └── PaymentServiceImpl.java
+│
+└── BackendApplication.java               # Entry Point da aplicación
+```
+
+## Localización de clubs
+
+- Spatial Data: If you want to search by map coordinates (latitude/longitude), don't just use Double. Look into PostGIS (if using PostgreSQL) or the Hibernate Spatial library. It allows you to do professional queries like "find all clubs within 10km of these coordinates" efficiently.
+- API interesante: https://photon.komoot.io/
+
+Proceso pensado:
+1. Usar a api cando estan creando o club para que poidan buscar a dirección exacta
+2. Gardar a dirección na bd na tabla `locations`
+3. Cando o usuario busca por pistas buscar en locations
+
+Nun principio podo facer a query e se hai tempo nun futuro usar **PostGIS**. Query exemplo:
+
+```sql
+-- Find clubs within :radius km of a user
+SELECT c.*, 
+       (6371 * acos(cos(radians(:userLat)) * cos(radians(l.latitude)) 
+       * cos(radians(l.longitude) - radians(:userLng)) + sin(radians(:userLat)) 
+       * sin(radians(l.latitude)))) AS distance
+FROM clubs c
+JOIN locations l ON c.location_id = l.id
+WHERE (6371 * acos(cos(radians(:userLat)) * cos(radians(l.latitude)) 
+       * cos(radians(l.longitude) - radians(:userLng)) + sin(radians(:userLat)) 
+       * sin(radians(l.latitude)))) < :radius
+ORDER BY distance ASC;
+```
+
 
 
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
@@ -305,3 +481,4 @@ backend. Para configurar SSL usarase **certbot**.
 - [Deploy con Docker y Ubuntu en 5 minutos (y mas) - Nginx y Certbot](https://www.youtube.com/watch?v=Hz_Jr2I_n8w)
 - [Crash course Angular](https://www.youtube.com/watch?v=oUmVFHlwZsI&t=628s)
 - [Install letsencrypt](https://www.inmotionhosting.com/support/website/ssl/lets-encrypt-ssl-ubuntu-with-certbot/)
+- [Flyway](https://www.baeldung.com/database-migrations-with-flyway)

@@ -3,7 +3,7 @@ package com.arenic.backend;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "userTest")
+@Table(name = "user_test")
 public class UserTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
