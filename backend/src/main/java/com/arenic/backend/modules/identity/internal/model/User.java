@@ -6,9 +6,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
+/*@Entity
 @Table(name = "users")
-@NoArgsConstructor @AllArgsConstructor @Builder @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder @Getter @Setter*/
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

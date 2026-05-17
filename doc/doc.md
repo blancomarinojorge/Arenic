@@ -14,7 +14,13 @@
   - [Base do deseño UI e identidade da empresa](#base-do-deseño-ui-e-identidade-da-empresa)
     - [Nome da aplicación](#nome-da-aplicación)
     - [Logo](#logo)
-- [Configuración do entorno]
+- [Configuración do entorno](#configuración-do-entorno)
+  - [Configuración do VPS](#configuración-do-vps)
+  - [Entorno local](#entorno-local)
+  - [Migracions - Flyway](#migracions)
+- [Backend - Springboot](#backend---springboot)
+  - [Estructura](#estructura-)
+  - [Localizacion de clubs](#localización-de-clubs)
 - [TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación](#todo-a-partir-de-este-punto-eres-libre-de-organizar-la-documentación-como-estimes-pero-debes-desarrollar-el-cuerpo-de-tu-proyecto-con-apartados-y-subapartados-que-completen-tu-documentación)
 - [Conclusiones](#conclusiones)
 - [Referencias, Fuentes consultadas y Recursos externos: Webgrafía](#referencias-fuentes-consultadas-y-recursos-externos-webgrafía)
@@ -113,6 +119,55 @@ que relacionarse coa tabla de reservas para xestionar a reserva dos participante
 Para satisfacer todos os requerimentos funcionales deseñouse o seguinte esquema Entidade-Relación.
 
 ![ER diagram.png](img/database/ER%20diagram.png)
+
+### Evolución e problemas
+
+#### Pago de pistas
+
+O problema mais grande co que me estou encontrando é coa lóxica de reserva e pago de pistas.
+
+Nun principio estaba pensado para que na taboa de configuración de prezos de cada pista se indicara o prezo para os membros do club e o prezo normal, o prezo total da pista sería a suma dos participantes. No caso de ser unha persoa soa a que reservara, cobrariaselle a sua praza co prezo de membro no caso de selo e co prezo normal para o resto de prazas anonimas.
+
+Mentras se desarrollaba atopeime con un problema de lóxica o cal non estaba cuberto por este modelo:
+
+O prezo da pista estaba dictado pola cantidade e tipos de xogadores (membros ou non) que participaban
+na reserva, pero en ningún campo se indicaba un número mínimo de xogadores ou un prezo base da pista, 
+polo que un partido de 2 xogadores pagaríase a metade de prezo que un de 4 xogadores.
+
+Para solucionar esto e ademais facer mais áxil a configuración dos horarios e prezos das pistas modificouse o esquema de base de datos.
+1. O usuario creará `PriceRules` indicando o día da semana e a hora de ínicio e fin. 
+2. Podendo enlazar a este obxeto un ou mais `PriceRuleIntervals`, os cales indican a duración permitida da reserva (60min, 90min...), prezo total, porcentaxe de desconto para os membros e o modo de xogo no cal se aplica (_*1_) (Individual, Dobles...).
+3. Aplica facilmente esta regra en unha ou mais pistas a vez.
+
+Ademais tamen se simplifica o horario de apertura dos clubs, creando a taboa `ClubSchedule` para cada día da semana. No caso de que unha pista teña
+un horario distinto ao do clube, simplemente configuranse o seu horario na taboa `PriceRules`, xa que de non dispoñer
+prezo para as horas non se poderá reservar.
+
+_*1: controlarase no backend e front que o modo de xogo existe entre as pistas seleccionadas na aplicación da regra, non no deseño de datos, para non complicar o esquema con relacions ternarias_
+
+#### Dias da semana
+
+Para os días da semana gardarase o ordinal, 1(Lunes)-7(Domingo), xa que facilita as queries e os reportes. Como hibernate usa os ORDINAL dende 0, haberá que facer un Conventer para que empece en 1. 
+
+```java
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import java.time.DayOfWeek;
+
+@Converter(autoApply = true) // This automatically protects all DayOfWeek fields in your project
+public class DayOfWeekIntegerConverter implements AttributeConverter<DayOfWeek, Integer> {
+
+    @Override
+    public Integer convertToDatabaseColumn(DayOfWeek attribute) {
+        return attribute != null ? attribute.getValue() : null; // Returns 1 for MONDAY, 7 for SUNDAY
+    }
+
+    @Override
+    public DayOfWeek convertToEntityAttribute(Integer dbData) {
+        return dbData != null ? DayOfWeek.of(dbData) : null; // Maps 1 back to MONDAY, 7 to SUNDAY
+    }
+}
+```
 
 ## Desarrollo
 
@@ -315,7 +370,7 @@ Escollese esta ferramenta antes que depender de **Hibernate** xa que deixa unha 
 Por defecto, Flyway non permite borrar un arquivo de migración unha vez executado. Para facer probas e non ter que deixar un rastro de arquivos de proba podese executar este comando para resetear o seguimento de flyway e poder borrar arquivos:
 
 ```shell
-./mvnw flyway:clean -Dspring.flyway.url=jdbc:postgresql://localhost:5432/myappdb -Dspring.flyway.user=your_user -Dspring.flyway.password=your_password
+./mvnw flyway:clean -Dspring.flyway.url=jdbc:postgresql://localhost:5432/myappdb -Dspring.flyway.user=your_user -Dspring.flyway.password=your_password -Dflyway.cleanDisabled=false
 ```
 
 ---
@@ -461,8 +516,6 @@ WHERE (6371 * acos(cos(radians(:userLat)) * cos(radians(l.latitude))
        * sin(radians(l.latitude)))) < :radius
 ORDER BY distance ASC;
 ```
-
-
 
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 

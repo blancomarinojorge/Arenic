@@ -6,9 +6,9 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Entity
+/*@Entity
 @Table(name = "clubs")
-@NoArgsConstructor @AllArgsConstructor @Builder @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder @Getter @Setter*/
 public class Club {
     private UUID id;
     private String name;
