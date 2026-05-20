@@ -380,9 +380,15 @@ Por defecto, Flyway non permite borrar un arquivo de migración unha vez executa
 ## Estructura 
 
 Optarase por un **Monolito Modular** para a estructura do backend, separando as distintas unidades de negocio claves da aplicación en módulos separados.
-Con esto o que se pretende é seguir o principio de **única responsabilidade**, facendo que os módulos non dependan estreitamente uns dos outros e conseguindo que
-a aplicación mais sexa mais escalable no caso de ser preciso nun futuro. Cada un dos módulos só se comunicará cos demais mediante os _Services_ dispoñibles e nunca
-accederán ao _Repository_ ou farán consultas sql as taboas dos módulos externos.
+
+Con esto o que se pretende é seguir garantir un alto grado de cohesión e un **baixo acoplamento** entre os compoñentes, facendo que os módulos non dependan estreitamente uns dos outros e conseguindo que
+a aplicación sexa mais escalable no caso de ser preciso nun futuro. 
+
+Nun primeiro momento pretendiase que cada un dos módulos só se comunicará cos
+demais mediante os _Services_ dispoñibles, non accedendo nunca aos _Repository_ externos directamente e non realizando consultas sql as taboas dos módulos externos.
+Finalmente esta idea descartase xa que complicaría moito as transaccións e o uso de Hibernate, privandonos de comodidades como os joins mediante `ManyToOne`, tendo
+que facer o mappeo de obxetos manualmente. Para un equipo e proxecto mais grande sería o común, pero para un proxecto de 1 persoa relentizaría e complicaría o desarrollo
+innecesariamente.
 
 Contaremos con 4 módulos principais:
 
@@ -516,6 +522,9 @@ WHERE (6371 * acos(cos(radians(:userLat)) * cos(radians(l.latitude))
        * sin(radians(l.latitude)))) < :radius
 ORDER BY distance ASC;
 ```
+
+
+
 
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 

@@ -1,0 +1,31 @@
+spring:
+  config:
+    import: "file:../.env[.properties]"
+  application:
+    name: backend
+
+  # Database Connection
+  datasource:
+    url: jdbc:postgresql://localhost:5432/myappdb
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  # JPA / Hibernate
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+  # Flyway settings
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    clean-disabled: false
+    locations:
+      - classpath:db/migration
+
+# WebServer config
+server:
+  port: 8080
+  servlet:
+    context-path: /api

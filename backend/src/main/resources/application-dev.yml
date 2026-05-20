@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    # 1. Automatic Schema Updates
+    # Overrides 'validate' so you can add fields to Java and they appear in DB instantly
+    hibernate:
+      ddl-auto: update
+
+    # 2. SQL Visibility
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true # Makes the SQL easier to read in the terminal
+
+  # 3. Flyway Dev Mode
+  flyway:
+    # Allows you to use 'clean' to wipe the DB and start fresh (Disable in Prod!)
+    clean-disabled: false
+
+    locations:
+      - classpath:db/migration
+      - classpath:db/migration/devdata
+
+# 4. Detailed Logging
+logging:
+  level:
+    # See the actual values being bound to your SQL queries (?, ?, ? becomes 'my-uuid')
+    org.hibernate.orm.jdbc.bind: TRACE
+    # See your own logic logs
+    com.arenic.backend: DEBUG

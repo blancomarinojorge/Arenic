@@ -10,7 +10,6 @@ CREATE TABLE users (
     deleted_at TIMESTAMP WITH TIME ZONE
 );
 
-
 CREATE TABLE locations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     address_line_1 VARCHAR(255) NOT NULL,
@@ -60,7 +59,7 @@ CREATE TABLE club_membership_roles (
 CREATE TABLE club_memberships (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
     club_id UUID REFERENCES clubs(id) ON DELETE CASCADE,
-    club_membership_role varchar(255) REFERENCES club_membership_roles(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
+    club_membership_role_slug varchar(255) REFERENCES club_membership_roles(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, club_id)
 );
@@ -78,7 +77,7 @@ CREATE TABLE courts (
     club_id UUID REFERENCES clubs(id) ON DELETE CASCADE,
     name VARCHAR(100) NOT NULL,
     court_type varchar(255) REFERENCES court_types(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
-    is_available BOOLEAN DEFAULT TRUE,
+    is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP WITH TIME ZONE
 );
@@ -128,7 +127,7 @@ CREATE TABLE price_rule_intervals(
     total_price DECIMAL(12, 2) NOT NULL CHECK (total_price >= 0),
     currency CHAR(3) NOT NULL DEFAULT 'EUR' CHECK (currency ~ '^[A-Z]{3}$'),
     member_discount_percent SMALLINT NOT NULL,
-    game_mode_slug varchar(255) REFERENCES game_modes(slug) ON DELETE RESTRICT ON UPDATE CASCADE
+    game_mode varchar(255) REFERENCES game_modes(slug) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- 4. Bookings
@@ -157,14 +156,14 @@ CREATE TABLE bookings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     court_id UUID REFERENCES courts(id) ON DELETE RESTRICT,
     initiator_id UUID REFERENCES users(id), -- The "Creator" of the booking
-    game_mode_slug varchar(255) REFERENCES game_modes(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
+    game_mode varchar(255) REFERENCES game_modes(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
     start_time TIMESTAMP WITH TIME ZONE NOT NULL,
     end_time TIMESTAMP WITH TIME ZONE NOT NULL,
     base_total_price DECIMAL(12, 2) NOT NULL CHECK (base_total_price >= 0),
     final_total_price DECIMAL(12, 2) NOT NULL CHECK (final_total_price >= 0),
     currency CHAR(3) NOT NULL DEFAULT 'EUR' CHECK (currency ~ '^[A-Z]{3}$'),
-    booking_status_slug varchar(255) NOT NULL REFERENCES booking_statuses(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
-    booking_type_slug varchar(255) NOT NULL REFERENCES booking_types(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
+    booking_status varchar(255) NOT NULL REFERENCES booking_statuses(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
+    booking_type varchar(255) NOT NULL REFERENCES booking_types(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP WITH TIME ZONE,
     CHECK (end_time > start_time)
@@ -178,7 +177,7 @@ CREATE TABLE booking_participants(
     is_owner boolean NOT NULL DEFAULT false,
     amount_to_pay DECIMAL(12, 2) NOT NULL CHECK (amount_to_pay >= 0),
     currency CHAR(3) NOT NULL DEFAULT 'EUR' CHECK (currency ~ '^[A-Z]{3}$'),
-    participation_status_slug varchar(255) NOT NULL REFERENCES booking_participation_statuses(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
+    participation_status varchar(255) NOT NULL REFERENCES booking_participation_statuses(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -211,7 +210,7 @@ CREATE TABLE user_payment_methods (
     token varchar(100),
     is_default boolean,
     card_last_four_digits varchar(4),
-    payment_provider_slug varchar(255) NOT NULL REFERENCES payment_providers(slug)
+    payment_provider varchar(255) NOT NULL REFERENCES payment_providers(slug) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE payments (
@@ -221,8 +220,8 @@ CREATE TABLE payments (
     amount DECIMAL(12, 2) NOT NULL CHECK (amount > 0),
     currency CHAR(3) NOT NULL DEFAULT 'EUR' CHECK (currency ~ '^[A-Z]{3}$'),
     user_payment_method UUID NOT NULL REFERENCES user_payment_methods(id),
-    payment_status_slug varchar(255) NOT NULL REFERENCES payment_statuses(slug),
-    payment_trigger_slug varchar(255) REFERENCES payment_triggers(slug),
+    payment_status varchar(255) NOT NULL REFERENCES payment_statuses(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
+    payment_trigger varchar(255) REFERENCES payment_triggers(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
     -- Financial Safety: Prevent double-charging
     idempotency_key VARCHAR(255) UNIQUE,
     intent_id VARCHAR(255) UNIQUE,
