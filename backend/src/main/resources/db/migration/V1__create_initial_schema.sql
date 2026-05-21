@@ -17,12 +17,11 @@ CREATE TABLE locations (
     city VARCHAR(100) NOT NULL,
     state_province VARCHAR(100),
     zip_code VARCHAR(20) NOT NULL,
-    country_code CHAR(2) NOT NULL DEFAULT 'ES',
+    country_code VARCHAR(2) NOT NULL DEFAULT 'ES',
     latitude DECIMAL(9, 6),
     longitude DECIMAL(9, 6),
     formatted_address TEXT,
-    timezone VARCHAR(50) NOT NULL DEFAULT 'Europe/Madrid',
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+    timezone VARCHAR(50) NOT NULL DEFAULT 'Europe/Madrid'
 );
 
 CREATE TABLE clubs (
@@ -61,7 +60,7 @@ CREATE TABLE club_memberships (
     club_id UUID REFERENCES clubs(id) ON DELETE CASCADE,
     club_membership_role_slug varchar(255) REFERENCES club_membership_roles(slug) ON DELETE RESTRICT ON UPDATE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id, club_id)
+    PRIMARY KEY (user_id, club_id, club_membership_role_slug)
 );
 
 -- 3. Infrastructure (Courts & Historized Pricing)

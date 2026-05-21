@@ -1,19 +1,16 @@
 package com.arenic.backend.modules.club.internal.model;
 
-import com.arenic.backend.common.model.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.OffsetDateTime;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
 @Table(name = "locations")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Location extends BaseEntity {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,17 +37,13 @@ public class Location extends BaseEntity {
     @Column(name = "country_code", length = 2, nullable = false)
     private String countryCode;
 
-    private Double latitude;
-    private Double longitude;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 
     @Column(columnDefinition = "TEXT")
     private String formattedAddress;
 
     @NotBlank
     private String timezone;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
 
 }

@@ -210,12 +210,6 @@ Configurase o dominio para que apunte ao VPS:
 | A Record | www | 206.189.18.120 | 30 min |
 | A Record | @ | 206.189.18.120 | 30 min |
 
-
-- [ ] facendo para acabar coa CI de github actions, mirar e preguntar se
-esta usando o tema do dominio, que para eso o comprei, redirigir todo a 
-443 para que a conexion sexa segura
-- [ ] unha vez acabado esto, montar os proyectos de springboot e angular
-
 ## Base do deseño UI e identidade da empresa
 
 ### Nome da aplicación

@@ -11,10 +11,10 @@ ON CONFLICT (email) DO NOTHING;
 -- ==========================================================
 -- 2. CLUB MODULE: Locations
 -- ==========================================================
-INSERT INTO locations (address_line_1, city, zip_code, country_code, timezone, created_at)
+INSERT INTO locations (address_line_1, city, zip_code, country_code, timezone)
 VALUES
-    ('Calle de Serrano, 12', 'Madrid', '28001', 'ES', 'Europe/Madrid', NOW()),
-    ('Avinguda de Diagonal, 405', 'Barcelona', '08006', 'ES', 'Europe/Madrid', NOW());
+    ('Calle de Serrano, 12', 'Madrid', '28001', 'ES', 'Europe/Madrid'),
+    ('Avinguda de Diagonal, 405', 'Barcelona', '08006', 'ES', 'Europe/Madrid');
 
 -- ==========================================================
 -- 3. CLUB MODULE: Clubs

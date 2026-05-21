@@ -16,5 +16,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GameModeEntity extends BaseReferenceEntity {
     @Column(nullable = false)
-    private Integer numberOfPlayers;
+    private Short numberOfPlayers;
 }

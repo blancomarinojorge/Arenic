@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@SuperBuilder
 public abstract class BaseReferenceEntity {
     @Id
     private String slug;

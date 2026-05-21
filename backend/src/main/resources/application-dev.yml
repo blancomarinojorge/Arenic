@@ -1,9 +1,8 @@
 spring:
   jpa:
     # 1. Automatic Schema Updates
-    # Overrides 'validate' so you can add fields to Java and they appear in DB instantly
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
 
     # 2. SQL Visibility
     show-sql: true
