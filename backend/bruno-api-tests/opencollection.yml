@@ -1,0 +1,10 @@
+opencollection: 1.0.0
+
+info:
+  name: Arenic Springboot
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

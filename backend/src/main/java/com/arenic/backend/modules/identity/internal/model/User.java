@@ -24,7 +24,7 @@ public class User extends BaseEntity {
     private UUID id;
     @NotBlank
     @Size(max = 255)
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @NotBlank
     @Size(max = 255)

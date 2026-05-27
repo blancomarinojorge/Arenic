@@ -244,3 +244,12 @@ CREATE INDEX idx_payments_booking ON payments (booking_id);
 CREATE INDEX idx_locations_city ON locations(city);
 CREATE INDEX idx_locations_zip ON locations(zip_code);
 CREATE INDEX idx_price_rules_club ON price_rules (club_id);
+
+
+-- 7. Token refresh
+CREATE TABLE user_refresh_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    token VARCHAR(255) NOT NULL UNIQUE,
+    user_id UUID NOT NULL,
+    expiry_date TIMESTAMP WITH TIME ZONE NOT NULL
+);

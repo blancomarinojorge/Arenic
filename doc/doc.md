@@ -183,6 +183,7 @@ Utilizaranse o seguinte stack tecnolóxico:
   proxecto a github unha vez finalizado o curso, tendo que facer a migración a Github Actions para poder seguin facendo
   cambios na aplicación no futuro.
 - DigitalOcean VPS
+- Bruno para facer test a api de springboot
 
 ### Creacion de repositorio github
 
@@ -517,9 +518,33 @@ WHERE (6371 * acos(cos(radians(:userLat)) * cos(radians(l.latitude))
 ORDER BY distance ASC;
 ```
 
+## Seguridade - Spring Security
+
+Version: `6.5.10`
+
+### Implementación de Criptografía Asimétrica (RSA)
+
+Neste proxecto, optei por utilizar **RSA (RS256)** en lugar de **HMAC (HS256)** para a sinatura de tokens JWT. Esta decisión fundaméntase en mellorar a seguridade 
+e a escalabilidade do sistema mediante os seguintes criterios técnicos:
+
+* **Descentralización da Verificación:** Ao usar RSA, o servidor de recursos pode utilizar o método `NimbusJwtDecoder.withPublicKey()` de Spring Security. 
+Esto permite verificar a integridade dos tokens de forma autónoma, sen necesidade de establecer unha conexión directa ou compartir claves privadas co servidor de autorización.
+* **Eliminación de Segredos Compartidos:** A diferenza de HMAC, que obriga a expoñer a mesma clave secreta no ficheiro `application.yml` de cada microservizo, 
+RSA permite que os servizos só coñezan a **clave pública**. Isto reduce drasticamente o risco: se un servizo se ve comprometido, o atacante non poderá xerar novos tokens fraudulentos.
+* **Separación de Responsabilidades (Separation of Concerns):** Seguindo os principios de seguridade de "mínimo privilexio", o Servidor de Autorización mantén a exclusividade
+da clave privada (capacidade de escrita/sinatura), mentres que os Servidores de Recursos só posúen a clave pública (capacidade de lectura/verificación), illando así as funcións críticas do sistema.
+
+Aínda que actualmente o servidor de autorización e o de recursos residen na mesma instancia, a elección de RSA garante o desacoplamento das capas de seguridade. Isto facilita 
+a transición cara a unha arquitectura de microservizos ou a integración dun sistema SSO (Single Sign-On) sen modificacións estruturais, asegurando a escalabilidade do sistema.
+
+### Esquema de autenticación
 
 
+![img.png](img/authentication/img.png)
 
+---
+
+# Extras
 ## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
 > Hemos elaborado un [checklist](checklist.md) de puntos necesarios para tu PFC, para que revises estas recomendaciones/especificaciones.
@@ -538,3 +563,7 @@ ORDER BY distance ASC;
 - [Crash course Angular](https://www.youtube.com/watch?v=oUmVFHlwZsI&t=628s)
 - [Install letsencrypt](https://www.inmotionhosting.com/support/website/ssl/lets-encrypt-ssl-ubuntu-with-certbot/)
 - [Flyway](https://www.baeldung.com/database-migrations-with-flyway)
+- [O2Auth and OpenId connect, JWT](https://www.youtube.com/watch?v=t18YB3xDfXI)
+- [Bruno for making api request](https://www.usebruno.com/)
+- [Jwt explained](https://www.youtube.com/watch?v=Y2H3DXDeS3Q)
+- [Spring security archichecture](https://www.youtube.com/watch?v=h-9vhFeM3MY)
