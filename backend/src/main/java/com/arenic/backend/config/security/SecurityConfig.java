@@ -25,6 +25,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -34,6 +37,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -50,10 +54,10 @@ public class SecurityConfig {
         http
                 // 1. Disable csrf since we don't need it for a stateless authentication, there`s no session in the browser anyone can use.
                 .csrf(AbstractHttpConfigurer::disable)
-                // todo#12 - Configure this so server can talk to angular
-                .cors(AbstractHttpConfigurer::disable)
+                // 2.
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 2. We make de session creation policy stateless
+                // 3. We make de session creation policy stateless
                 /*
                 * - What it means: This tells Spring Security never to create an HttpSession on the server, and never to store or look for security context data inside a server-side session cookie.
                 * - Why it matters: This enforces strict REST principles. Every single incoming HTTP request is treated as completely independent. The server remembers absolutely nothing about the
@@ -63,7 +67,7 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // 3. Configuring general url authentication security
+                // 4. Configuring general url authentication security
                 .authorizeHttpRequests(auth -> auth
                         // 3.1 Anyone can access the login pages
                         .requestMatchers("/auth/**").permitAll()
@@ -79,6 +83,28 @@ public class SecurityConfig {
                 *   2 If found, it extracts the token string and hands it directly to your custom jwtDecoder() bean.
                 *   3 The decoder verifies the cryptographic signature of the JWT using your public RSA key and checks that the expiration timestamp hasn't passed.
                 *   4 If validation succeeds, Spring extracts the user's details and claims from the token payload, creates an Authentication context token, and securely allows the request to proceed to your Controller.
+                *
+                *   Request with Authorization: Bearer <token>
+                *           │
+                *           ▼
+                *   BearerTokenAuthenticationFilter
+                *           │
+                *           ├─ jwtDecoder().decode(token)
+                *           │     ├─ Verifies RSA signature
+                *           │     └─ Checks expiry claim
+                *           │
+                *           ▼
+                *   JwtAuthenticationConverter  (Spring's default)
+                *           │
+                *           ├─ Reads claims directly from the token payload
+                *           │     ├─ sub  → principal name
+                *           │     └─ scope/scp → granted authorities
+                *           │
+                *           ▼
+                *   JwtAuthenticationToken stored in SecurityContextHolder
+                *           │
+                *           NO database call at all
+                *
                 * */
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
@@ -89,12 +115,6 @@ public class SecurityConfig {
                             //.jwtAuthenticationConverter()
                         )
                 );
-
-
-                /*.oauth2Login(oAuth2 -> oAuth2
-                        .defaultSuccessUrl("http://localhost:4200/auth-callback", true)
-                );*/
-
 
         return http.build();
     }
@@ -160,5 +180,27 @@ public class SecurityConfig {
                 .build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // Allow Angular frontend origin explicitly
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+
+        // Allow standard HTTP methods
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // Allow the headers your frontend application sends
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+
+        // Allow browser credentials if you plan to use HTTP-only cookies later
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Apply this configuration to every single endpoint in the application
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

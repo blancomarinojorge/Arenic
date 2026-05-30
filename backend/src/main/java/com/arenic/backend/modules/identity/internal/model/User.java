@@ -1,15 +1,12 @@
 package com.arenic.backend.modules.identity.internal.model;
 
 import com.arenic.backend.common.model.BaseEntity;
-import com.arenic.backend.modules.club.internal.model.Club;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -39,8 +36,6 @@ public class User extends BaseEntity {
     @Column(name = "surname1", nullable = false)
     private String surname1;
     @Size(max = 255)
-    @Column(name = "surname2", nullable = false)
+    @Column(name = "surname2")
     private String surname2;
-
-
 }

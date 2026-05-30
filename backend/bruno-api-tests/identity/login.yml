@@ -1,0 +1,25 @@
+info:
+  name: login
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http:/localhost:8080/api/me
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJ0ZW5uaXMtY291cnQtYXBwIiwic3ViIjoiODQ1MGMxZWMtYmI0Mi00ZTgyLWI4YWMtNTcwMzM3NzczNThkIiwiZXhwIjoxNzgwMTQxNzc2LCJpYXQiOjE3ODAxNDA4NzYsImVtYWlsIjoiYWRtaW5AYXJlbmljLmNvbSJ9.gTo9GmPAGMbpQIuVWNv-zcR00fMX6UVcHxO03It1IsbdAaq2UwRpIpshpq3t7S1jmzKT3iT-cceAGcKqg0hVEObGqiLcRzIYJzKOufjBrEZ47Cx43bhd8o_pFV7JVSeIvrChm21em3n8h-wjpwAKpRiyy5mHp2d4WA1AenNiyq8ee4Ee4lbhHUKSUdpEfr5cbf4ZJKU0E_OIXJZX75bX_Drf0MbmNipphMg5FdLqf7FVVaatJSA_IQ0Z_scRAxg5y6TOuganzIHk4fQUZ24JZqCS1UZCYT35J834EqIdDFTuXtdZYVXQww5-zDtUdXVq1PfmzCJOUCXbxLtwqzqDpA
+  body:
+    type: json
+    data: |-
+      {
+        "email": "admin@arenic.com",
+        "password": "abc123."
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

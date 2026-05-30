@@ -44,7 +44,6 @@ public class UserRepositoryTest {
         userRepository.flush();
         entityManager.clear();
 
-        savedUser = userRepository.getUserById(savedUser.getId());
-        System.out.println("Borrado -> " + savedUser);
+        assertThat(userRepository.getUserById(savedUser.getId())).isNotPresent();
     }
 }

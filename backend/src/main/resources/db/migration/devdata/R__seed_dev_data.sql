@@ -3,8 +3,8 @@
 -- ==========================================================
 INSERT INTO users (email, password, name, surname1, surname2, created_at)
 VALUES
-    ('admin@arenic.com', '$2a$10$8.UnVuG9HHgffUDAlk8q6uyzREX7fmmqIdzb/xp6pM68L.fV7M.6y', 'Carlos', 'Alcaraz', 'Admin', NOW()),
-    ('player@arenic.com', '$2a$10$8.UnVuG9HHgffUDAlk8q6uyzREX7fmmqIdzb/xp6pM68L.fV7M.6y', 'Rafa', 'Nadal', 'User', NOW())
+    ('admin@arenic.com', '$2a$12$UU48VkBs6YyRwSgkxqQHxO0VvaIMDJHBcBzo/V0.morPFCjD3NJSW', 'Carlos', 'Alcaraz', 'Admin', NOW()),
+    ('player@arenic.com', '$2a$12$V3NHpICo9d5Gx.abEln2wepkIUJiJivBWqN8oU.vqfBsjhOlKQlRu', 'Rafa', 'Nadal', 'User', NOW())
 ON CONFLICT (email) DO NOTHING;
 -- Note: Using email for conflict check since we aren't providing IDs
 
