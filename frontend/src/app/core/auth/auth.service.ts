@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { enviroment } from '../../../enviroments/enviroment';
-import { AuthResponse, LoginRequest } from './auth.models';
+import {AuthResponse, GoogleLoginRequest, LoginRequest} from './auth.models';
 
 
 const ACCESS_TOKEN_KEY = 'access_token';
@@ -29,6 +29,12 @@ export class AuthService{
     return this.http
       .post<AuthResponse>(`${enviroment.apiUrl}/auth/login`, request)
       .pipe(tap(response => this.storeTokens(response)))
+  }
+
+  googleLogin(request: GoogleLoginRequest){
+    return this.http
+      .post<AuthResponse>(`${enviroment.apiUrl}/auth/googleLogin`, request)
+      .pipe(tap(response => this.storeTokens(response)));
   }
 
   logout(){
@@ -63,6 +69,4 @@ export class AuthService{
     this._accessToken.set(null);
     this.router.navigate(['/login'])
   }
-
-
 }
