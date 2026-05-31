@@ -71,6 +71,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 3.1 Anyone can access the login pages
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**").permitAll()
                         // 3.2 Any other request, will have to be authenticated
                         .anyRequest().authenticated()
                 )

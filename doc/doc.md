@@ -492,6 +492,12 @@ com.arenic.backend/
 └── BackendApplication.java               # Entry Point da aplicación
 ```
 
+## Documentación de api
+
+Usarase swagger para a documentación da api, a cal poderá ser accesible localmente mendiante
+a url `http://localhost:8080/api/swagger-ui/index.html#/`.
+
+
 ## Localización de clubs
 
 - Spatial Data: If you want to search by map coordinates (latitude/longitude), don't just use Double. Look into PostGIS (if using PostgreSQL) or the Hibernate Spatial library. It allows you to do professional queries like "find all clubs within 10km of these coordinates" efficiently.
@@ -541,6 +547,60 @@ a transición cara a unha arquitectura de microservizos ou a integración dun si
 
 
 ![img.png](img/authentication/img.png)
+
+---
+
+# Frontend
+
+### Creación do proxecto
+
+- Angular 18 (standalone components + signals)
+- Tailwind CSS
+- Vite (via @angular-devkit/build-angular)
+- No component library
+
+```shell
+# creamos o proxecto
+npx @angular/cli@18 new frontend --routing --style=css --ssr=false
+# instalamos a depedencias de tailwind, gardandoas no package.json como dependencias
+# de desarrollo, xa que non son necesarias en PRD
+npm install -D tailwindcss postcss autoprefixer
+# creamos o arquivo de configuración de tailwind
+npx tailwindcss init
+```
+
+#### Estructura inicial:
+
+```text
+src/app/
+├── core/
+│   └── auth/
+│       ├── auth.models.ts
+│       ├── auth.service.ts
+│       ├── auth.interceptor.ts
+│       └── auth.guard.ts
+├── features/
+│   ├── auth/
+│   │   └── login/
+│   │       ├── login.component.ts
+│   │       └── login.component.html
+│   └── dashboard/
+│       └── dashboard.component.ts
+├── app.config.ts
+└── app.routes.ts
+```
+
+## Intercepción de request
+
+Crearase un interceptor o cal se executará en todas as request http. Este engadirá o token jwt
+identificativo nas peticións ao backend e interceptará os erros `401`, intentando usar o token
+de refresco no caso de estar dispoñible para conseguir un novo token identificativo.
+
+![login_flow.png](img/authentication/frontend_login_flow.png)
+
+
+
+
 
 ---
 
