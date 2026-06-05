@@ -627,3 +627,4 @@ de refresco no caso de estar dispoñible para conseguir un novo token identifica
 - [Bruno for making api request](https://www.usebruno.com/)
 - [Jwt explained](https://www.youtube.com/watch?v=Y2H3DXDeS3Q)
 - [Spring security archichecture](https://www.youtube.com/watch?v=h-9vhFeM3MY)
+- [Tabler icons](https://github.com/tabler/tabler-icons?checkout%5Bcustom%5D%5Bph_distinct_id%5D=019e936e-adef-70a0-a5a4-a657724cf783&reference_id=019e936e-adef-70a0-a5a4-a657724cf783)

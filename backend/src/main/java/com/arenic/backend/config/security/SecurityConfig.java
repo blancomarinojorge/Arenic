@@ -75,6 +75,10 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**").permitAll()
+                        // 3.2 Public info
+                        .requestMatchers(
+                                "/clubs/**"
+                        ).permitAll()
                         // 3.2 Any other request, will have to be authenticated
                         .anyRequest().authenticated()
                 )

@@ -1,1 +1,340 @@
-<p class="text-red-100">dashboard works!</p>
+
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-container-lowest border-b border-outline-variant dark:border-outline fixed top-0 left-0 right-0 z-50">
+  <div class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+    <div class="flex items-center gap-8">
+      <span class="font-headline-md text-headline-md font-extrabold italic text-primary dark:text-primary-fixed">ARENIC</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="hidden md:block text-primary font-label-lg text-label-lg hover:text-secondary transition-colors duration-200 px-4 py-2">Sign In</button>
+      <button class="bg-primary text-on-primary font-label-lg text-label-lg px-6 py-2.5 rounded-lg hover:bg-primary-container transition-all active:opacity-80">Join Now</button>
+    </div>
+  </div>
+</header>
+<main class="pt-24 pb-16 min-h-screen">
+  <!-- Hero Section -->
+  <section class="w-full px-margin-desktop max-w-container-max mx-auto mb-10">
+    <div class="relative w-full h-64 rounded-xl overflow-hidden bg-primary mb-8 group">
+      <img alt="Club Hero" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="A high-performance indoor padel court with bright blue turf and glass walls. The lighting is crisp and professional, reflecting off the polished surfaces. The overall aesthetic is clean and athletic, emphasizing the modern, corporate sports environment of COURTSIDE with its deep navy blue brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqR_iGjO0u2-x54xmGmC6vORtkH2UAocand5-3RwRD3Dm8A_mqQZ5PCAyORnfwGJy7dl6Y8qLGYgfoBgfJPM-qRIRILRVgTfYaMrPQH21H74nSPjxlj2MBOdV5Q_5BajOrBYPZFGO7S9rYcyucY5PaluNEgzwHp_Y8UdmMEK2aGZsBlif-WmR59F_JnsUL9wLqgae-6ArAtsirjYG8RCrZyHeOMbTsPeH6tFlk-1kLn_zwbJ566bVtZVfIN64U1ghKgHXbjE-FiQY"/>
+      <div class="absolute inset-0 p-8 flex flex-col justify-end">
+        <span class="text-on-primary bg-secondary px-3 py-1 rounded-sm w-fit font-label-md text-label-md mb-2">PREMIUM CLUB</span>
+        <h1 class="font-headline-lg text-headline-lg text-on-primary italic uppercase">The Grand Central Arena</h1>
+        <p class="text-on-primary/80 font-body-lg text-body-lg flex items-center gap-2">
+          <span class="material-symbols-outlined text-[20px]">location_on</span>
+          London Central, SE1 7PB
+        </p>
+      </div>
+    </div>
+    <!-- Booking Controls -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
+      <!-- Date Selector -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-headline-sm text-headline-sm italic">SELECT DATE</h2>
+          <div class="flex gap-2">
+            <button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        </div>
+        <div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+          <!-- Date Pills -->
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl bg-primary text-on-primary border-2 border-primary">
+            <span class="font-label-md text-label-md opacity-70">OCT</span>
+            <span class="text-[24px] font-bold">24</span>
+            <span class="font-label-md text-label-md">THU</span>
+          </button>
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl border border-outline-variant hover:border-primary transition-all">
+            <span class="font-label-md text-label-md text-on-surface-variant">OCT</span>
+            <span class="text-[24px] font-bold">25</span>
+            <span class="font-label-md text-label-md text-on-surface-variant">FRI</span>
+          </button>
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl border border-outline-variant hover:border-primary transition-all">
+            <span class="font-label-md text-label-md text-on-surface-variant">OCT</span>
+            <span class="text-[24px] font-bold">26</span>
+            <span class="font-label-md text-label-md text-on-surface-variant">SAT</span>
+          </button>
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl border border-outline-variant hover:border-primary transition-all">
+            <span class="font-label-md text-label-md text-on-surface-variant">OCT</span>
+            <span class="text-[24px] font-bold">27</span>
+            <span class="font-label-md text-label-md text-on-surface-variant">SUN</span>
+          </button>
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl border border-outline-variant hover:border-primary transition-all">
+            <span class="font-label-md text-label-md text-on-surface-variant">OCT</span>
+            <span class="text-[24px] font-bold">28</span>
+            <span class="font-label-md text-label-md text-on-surface-variant">MON</span>
+          </button>
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl border border-outline-variant hover:border-primary transition-all">
+            <span class="font-label-md text-label-md text-on-surface-variant">OCT</span>
+            <span class="text-[24px] font-bold">29</span>
+            <span class="font-label-md text-label-md text-on-surface-variant">TUE</span>
+          </button>
+          <button class="flex-shrink-0 w-20 h-24 flex flex-col items-center justify-center rounded-xl border border-outline-variant hover:border-primary transition-all">
+            <span class="font-label-md text-label-md text-on-surface-variant">OCT</span>
+            <span class="text-[24px] font-bold">30</span>
+            <span class="font-label-md text-label-md text-on-surface-variant">WED</span>
+          </button>
+        </div>
+      </div>
+      <!-- Sport Selector -->
+      <div class="mb-8">
+        <h3 class="font-label-lg text-label-lg uppercase text-on-surface-variant mb-4 tracking-widest">Select Discipline</h3>
+        <div class="flex flex-wrap gap-4">
+          <button class="flex items-center gap-3 px-6 py-3 rounded-full bg-surface-container-high border-2 border-primary text-primary font-bold">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_tennis</span>
+            Tennis
+          </button>
+          <button class="flex items-center gap-3 px-6 py-3 rounded-full border border-outline-variant hover:bg-surface-container transition-all text-on-surface-variant">
+            <span class="material-symbols-outlined">sports_handball</span>
+            Padel
+          </button>
+          <button class="flex items-center gap-3 px-6 py-3 rounded-full border border-outline-variant hover:bg-surface-container transition-all text-on-surface-variant">
+            <span class="material-symbols-outlined">sports_tennis</span>
+            Pickleball
+          </button>
+        </div>
+      </div>
+      <!-- Court Scheduler Grid -->
+      <div class="relative overflow-hidden">
+        <div class="overflow-x-auto hide-scrollbar court-grid-scroll">
+          <div class="min-w-[1000px]">
+            <!-- Time Header -->
+            <div class="grid grid-cols-[120px_repeat(14,1fr)] gap-2 mb-4">
+              <div class="bg-surface-container-low p-2 rounded text-center font-label-md text-label-md text-on-surface-variant">COURT</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">08:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">09:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">10:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">11:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">12:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">13:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">14:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">15:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">16:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">17:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">18:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">19:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">20:00</div>
+              <div class="p-2 text-center font-label-md text-label-md text-on-surface-variant">21:00</div>
+            </div>
+            <!-- Row: Court 1 -->
+            <div class="grid grid-cols-[120px_repeat(14,1fr)] gap-2 mb-2">
+              <div class="flex items-center justify-center font-bold text-primary bg-surface-container-low rounded border border-outline-variant">Court 1</div>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative overflow-hidden">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative overflow-hidden">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded bg-surface-container-high border border-outline-variant flex items-center justify-center cursor-not-allowed opacity-60" disabled="">
+                <span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded bg-primary text-on-primary font-bold flex flex-col items-center justify-center border-2 border-primary shadow-lg scale-[1.02] z-10">
+                <span class="text-[10px] uppercase opacity-80">Selected</span>
+                <span>Booked</span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded bg-surface-container-high border border-outline-variant opacity-60 flex items-center justify-center" disabled="">
+                <span class="material-symbols-outlined text-outline text-[18px]">lock</span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative">
+                <span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+            </div>
+            <!-- Row: Court 2 -->
+            <div class="grid grid-cols-[120px_repeat(14,1fr)] gap-2 mb-2">
+              <div class="flex items-center justify-center font-bold text-primary bg-surface-container-low rounded border border-outline-variant">Court 2</div>
+              <button class="h-16 rounded bg-surface-container-high border border-outline-variant opacity-60 flex items-center justify-center" disabled=""><span class="material-symbols-outlined text-outline text-[18px]">lock</span></button>
+              <button class="h-16 rounded bg-surface-container-high border border-outline-variant opacity-60 flex items-center justify-center" disabled=""><span class="material-symbols-outlined text-outline text-[18px]">lock</span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+            </div>
+            <!-- Row: Court 3 -->
+            <div class="grid grid-cols-[120px_repeat(14,1fr)] gap-2">
+              <div class="flex items-center justify-center font-bold text-primary bg-surface-container-low rounded border border-outline-variant">Court 3</div>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded bg-surface-container-high border border-outline-variant opacity-60 flex items-center justify-center" disabled=""><span class="material-symbols-outlined text-outline text-[18px]">lock</span></button>
+              <button class="h-16 rounded bg-surface-container-high border border-outline-variant opacity-60 flex items-center justify-center" disabled=""><span class="material-symbols-outlined text-outline text-[18px]">lock</span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+              <button class="h-16 rounded border border-outline-variant bg-surface-container-lowest hover:border-primary transition-all group relative"><span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Summary Footer -->
+      <div class="mt-10 flex flex-col md:flex-row items-center justify-between border-t border-outline-variant pt-8 gap-6">
+        <div class="flex items-center gap-8">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded border border-outline-variant bg-surface-container-lowest"></div>
+            <span class="font-label-md text-label-md text-on-surface-variant">Available</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-surface-container-high border border-outline-variant opacity-60"></div>
+            <span class="font-label-md text-label-md text-on-surface-variant">Booked</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-primary"></div>
+            <span class="font-label-md text-label-md text-on-surface-variant">Selected</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-6 w-full md:w-auto">
+          <div class="text-right">
+            <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Price</p>
+            <p class="font-headline-sm text-headline-sm text-primary">£45.00</p>
+          </div>
+          <button class="flex-grow md:flex-none bg-primary text-on-primary px-10 py-4 rounded-lg font-bold hover:bg-primary-container transition-all shadow-lg active:scale-95">
+            CONFIRM BOOKING
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Sidebar Info Section (Asymmetric) -->
+  <section class="w-full px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-3 gap-gutter mt-8">
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant">
+        <h3 class="font-headline-sm text-headline-sm italic mb-4">CLUB POLICIES</h3>
+        <ul class="space-y-4">
+          <li class="flex gap-4">
+            <span class="material-symbols-outlined text-primary">info</span>
+            <p class="font-body-md text-body-md">Cancellations made less than 24 hours before the reservation will not be refunded.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="material-symbols-outlined text-primary">check_circle</span>
+            <p class="font-body-md text-body-md">Please arrive 15 minutes before your scheduled slot to check in at reception.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-primary p-8 rounded-xl text-on-primary">
+      <h3 class="font-headline-sm text-headline-sm italic mb-4">MEMBERSHIP PERKS</h3>
+      <p class="font-body-md text-body-md mb-6 opacity-90">Join the COURTSIDE Elite program for priority booking, 20% discount on court fees, and free guest passes.</p>
+      <button class="w-full py-3 bg-secondary text-on-primary font-bold rounded hover:bg-secondary-container transition-colors">UPGRADE NOW</button>
+    </div>
+  </section>
+</main>
+<!-- Footer -->
+<footer class="bg-primary dark:bg-surface-container-highest w-full py-12 px-margin-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter text-on-primary dark:text-on-surface">
+  <div class="flex flex-col gap-4">
+    <span class="font-headline-sm text-headline-sm font-black italic text-on-primary dark:text-on-surface">COURTSIDE</span>
+    <p class="font-body-md text-body-md text-on-primary/80 dark:text-on-surface-variant max-w-xs">The world's premier platform for elite racket sports management and professional booking.</p>
+  </div>
+  <div class="flex flex-col gap-4">
+    <h4 class="font-label-lg text-label-lg uppercase tracking-widest text-secondary-fixed">Resources</h4>
+    <div class="flex flex-col gap-2">
+      <a class="font-label-md text-label-md text-on-primary/80 dark:text-on-surface-variant hover:text-secondary-container transition-colors" href="#">Privacy Policy</a>
+      <a class="font-label-md text-label-md text-on-primary/80 dark:text-on-surface-variant hover:text-secondary-container transition-colors" href="#">Terms of Service</a>
+      <a class="font-label-md text-label-md text-on-primary/80 dark:text-on-surface-variant hover:text-secondary-container transition-colors" href="#">Contact Support</a>
+    </div>
+  </div>
+  <div class="flex flex-col gap-4">
+    <h4 class="font-label-lg text-label-lg uppercase tracking-widest text-secondary-fixed">Company</h4>
+    <div class="flex flex-col gap-2">
+      <a class="font-label-md text-label-md text-on-primary/80 dark:text-on-surface-variant hover:text-secondary-container transition-colors" href="#">Club Partners</a>
+      <a class="font-label-md text-label-md text-on-primary/80 dark:text-on-surface-variant hover:text-secondary-container transition-colors" href="#">Careers</a>
+      <a class="font-label-md text-label-md text-on-primary/80 dark:text-on-surface-variant hover:text-secondary-container transition-colors" href="#">Our Vision</a>
+    </div>
+  </div>
+  <div class="flex flex-col gap-4">
+    <h4 class="font-label-lg text-label-lg uppercase tracking-widest text-secondary-fixed">Follow Us</h4>
+    <div class="flex gap-4">
+      <span class="material-symbols-outlined cursor-pointer hover:text-secondary-container transition-all">public</span>
+      <span class="material-symbols-outlined cursor-pointer hover:text-secondary-container transition-all">share</span>
+      <span class="material-symbols-outlined cursor-pointer hover:text-secondary-container transition-all">mail</span>
+    </div>
+    <p class="font-label-md text-label-md mt-4 text-on-primary/60">© 2024 COURTSIDE Performance. All rights reserved.</p>
+  </div>
+</footer>
+<script>
+  // Micro-interactions for court slot selection
+  document.querySelectorAll('button:not([disabled])').forEach(button => {
+    if (button.classList.contains('h-16') && !button.classList.contains('bg-primary')) {
+      button.addEventListener('click', () => {
+        // Reset others
+        // This is a simplified interaction demo
+        button.classList.toggle('bg-primary');
+        button.classList.toggle('text-on-primary');
+        button.classList.toggle('border-primary');
+        button.classList.toggle('shadow-lg');
+        button.classList.toggle('scale-[1.02]');
+        button.classList.toggle('z-10');
+
+        const innerText = button.querySelector('span') || document.createElement('span');
+        if (button.classList.contains('bg-primary')) {
+          button.innerHTML = '<span class="text-[10px] uppercase opacity-80">Selected</span><span>Booked</span>';
+          button.classList.add('font-bold', 'flex', 'flex-col', 'items-center', 'justify-center');
+        } else {
+          button.innerHTML = '<span class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>';
+          button.classList.remove('font-bold', 'flex', 'flex-col', 'items-center', 'justify-center');
+        }
+      });
+    }
+  });
+
+  // Simple horizontal scroll for date picker
+  const dateScroll = document.querySelector('.hide-scrollbar');
+  if (dateScroll) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    dateScroll.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - dateScroll.offsetLeft;
+      scrollLeft = dateScroll.scrollLeft;
+    });
+    dateScroll.addEventListener('mouseleave', () => isDown = false);
+    dateScroll.addEventListener('mouseup', () => isDown = false);
+    dateScroll.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - dateScroll.offsetLeft;
+      const walk = (x - startX) * 2;
+      dateScroll.scrollLeft = scrollLeft - walk;
+    });
+  }
+</script>

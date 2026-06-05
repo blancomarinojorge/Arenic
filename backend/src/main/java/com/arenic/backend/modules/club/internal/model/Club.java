@@ -4,6 +4,7 @@ import com.arenic.backend.common.model.BaseEntity;
 import com.arenic.backend.modules.identity.internal.model.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "clubs")
+@SQLRestriction("isActive = true and deleted_at is null")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Club extends BaseEntity {
 
