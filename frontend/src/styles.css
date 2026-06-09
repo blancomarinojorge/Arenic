@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+  /* ==========================================================================
+     1. PRIMITIVES (Base Palette)
+     ========================================================================== */
+  --primitive-white: #FFFFFF;
+  --primitive-black: #000000;
+
+  --primitive-brand-100: #D9D9D9;
+  --primitive-brand-150: #AAB5BF;
+  --primitive-brand-300: #849EBF;
+  --primitive-brand-500: #2E578C;
+  --primitive-brand-700: #204F8C;
+  --primitive-brand-900: #063572;
+  --primitive-brand-950: #001C59;
+
+  --primitive-neutral-100: #F2F2F2;
+  --primitive-neutral-300: #BFC4C7;
+  --primitive-neutral-500: #A6A6A6;
+  --primitive-neutral-700: #595959;
+  --primitive-neutral-900: #404040;
+
+  --primitive-negative-700: #B33A3A;
+
+  /* ==========================================================================
+     2. SEMANTIC TOKENS (Intentional Mapping)
+     ========================================================================== */
+  /* Content */
+  --color-content-primary: var(--primitive-neutral-900);
+  --color-content-primary-inverse: var(--primitive-white);
+  --color-content-secondary: var(--primitive-neutral-700);
+  --color-content-brand-primary: var(--primitive-brand-700);
+  --color-content-brand-secondary: var(--primitive-brand-500);
+  --color-content-link: var(--primitive-brand-700);
+  --color-content-link-hover: var(--primitive-brand-900);
+  --color-content-link-pressed: var(--primitive-brand-950);
+  --color-content-negative: var(--primitive-negative-700);
+
+  /* Background */
+  --color-bg-primary: var(--primitive-white);
+  --color-bg-primary-hover: var(--primitive-neutral-100);
+  --color-bg-brand: var(--primitive-brand-700);
+  --color-bg-brand-hover: var(--primitive-brand-900);
+  --color-bg-brand-pressed: var(--primitive-brand-950);
+
+  /* Border */
+  --color-border-primary: var(--primitive-neutral-700);
+  --color-border-secondary: var(--primitive-neutral-300);
+  --color-border-negative: var(--primitive-negative-700);
+  --color-border-focus: var(--primitive-brand-900);
+
+  /* Surface & Overlay */
+  --color-surface-l1: var(--primitive-white);
+  --color-surface-l2: var(--primitive-brand-150);
+  --color-overlay-50: rgba(255, 255, 255, 0.5); /* #FFFFFF with 0.5 alpha */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+}

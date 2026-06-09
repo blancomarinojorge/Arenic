@@ -3,95 +3,112 @@ module.exports = {
   content: [
     "./src/**/*.{html,ts}"
   ],
-  /*theme: {
-    extend: {},
-  },*/
-  plugins: [],
   theme: {
     extend: {
-      "colors": {
-        "surface-bright": "#fcf9f8",
-        "on-surface": "#1c1b1b",
-        "outline": "#737781",
-        "on-secondary-container": "#5e0500",
-        "tertiary-container": "#3f4f5c",
-        "inverse-on-surface": "#f3f0ef",
-        "outline-variant": "#c3c6d1",
-        "on-primary-fixed-variant": "#194780",
-        "secondary": "#b42815",
-        "surface-dim": "#dcd9d9",
-        "on-tertiary": "#ffffff",
-        "on-background": "#1c1b1b",
-        "background": "#fcf9f8",
-        "surface-container-highest": "#e5e2e1",
-        "on-tertiary-fixed": "#0c1d29",
-        "on-secondary-fixed": "#3f0200",
-        "on-primary-fixed": "#001b3c",
-        "surface-container-low": "#f6f3f2",
-        "tertiary-fixed": "#d3e5f5",
-        "on-error-container": "#93000a",
-        "surface-variant": "#e5e2e1",
-        "on-secondary-fixed-variant": "#900d00",
-        "surface-container-lowest": "#ffffff",
-        "inverse-primary": "#a8c8ff",
-        "primary-fixed-dim": "#a8c8ff",
-        "on-primary-container": "#99bfff",
-        "secondary-container": "#fd5d44",
-        "on-tertiary-container": "#afc0d0",
-        "primary-container": "#214d86",
-        "inverse-surface": "#313030",
-        "error": "#ba1a1a",
-        "primary": "#00366b",
-        "surface-container": "#f0eded",
-        "surface": "#fcf9f8",
-        "on-error": "#ffffff",
-        "tertiary": "#283844",
-        "error-container": "#ffdad6",
-        "primary-fixed": "#d5e3ff",
-        "tertiary-fixed-dim": "#b7c9d8",
-        "surface-tint": "#365f99",
-        "secondary-fixed-dim": "#ffb4a6",
-        "on-secondary": "#ffffff",
-        "on-surface-variant": "#434750",
-        "on-primary": "#ffffff",
-        "surface-container-high": "#eae7e7",
-        "on-tertiary-fixed-variant": "#394955",
-        "secondary-fixed": "#ffdad4"
+      fontFamily: {
+        display: ['Raleway', 'sans-serif'],
+        sans: ['"Barlow Condensed"', 'sans-serif']
       },
-      "borderRadius": {
-        "DEFAULT": "0.125rem",
-        "lg": "0.25rem",
-        "xl": "0.5rem",
-        "full": "0.75rem"
+      fontSize: {
+        // --- HEADING VARIABLES (Generates: text-heading-*) ---
+        heading: {
+          'xs':  ['0.875rem', { lineHeight: '1.25rem' }], // 14px / 20px
+          's':   ['1rem', { lineHeight: '1.5rem' }],      // 16px / 24px
+          'm':   ['1.25rem', { lineHeight: '1.75rem' }],  // 20px / 28px
+          'l':   ['2rem', { lineHeight: '2.5rem' }],      // 32px / 40px
+          'xl':  ['2.5rem', { lineHeight: '3rem' }],      // 40px / 48px
+          '2xl': ['3rem', { lineHeight: '3.5rem' }],      // 48px / 56px
+          '3xl': ['3.5rem', { lineHeight: '4rem' }],      // 56px / 64px
+          '4xl': ['4rem', { lineHeight: '4.5rem' }],      // 64px / 72px
+          '5xl': ['4.5rem', { lineHeight: '5rem' }],      // 72px / 80px
+        },
+
+        // --- BODY TEXT VARIABLES (Generates: text-text-*) ---
+        text: {
+          'xs':  ['0.625rem', { lineHeight: '0.875rem' }], // 10px / 14px
+          's':   ['0.75rem', { lineHeight: '1rem' }],      // 12px / 16px
+          'm':   ['0.875rem', { lineHeight: '1.25rem' }],  // 14px / 20px
+          'l':   ['1rem', { lineHeight: '1.5rem' }],      // 16px / 24px
+          'xl':  ['1.25rem', { lineHeight: '1.75rem' }],  // 20px / 28px
+          '2xl': ['1.5rem', { lineHeight: '2rem' }],      // 24px / 32px
+        }
       },
-      "spacing": {
-        "unit": "4px",
-        "gutter": "24px",
-        "margin-mobile": "16px",
-        "margin-desktop": "64px",
-        "container-max": "1280px"
+      colors: {
+
+        // ==========================================
+        // CONTENT TOKENS (Generates: text-content-*)
+        // ==========================================
+        content: {
+          'primary': 'var(--color-content-primary)',
+          'primary-inverse': 'var(--color-content-primary-inverse)',
+          'primary-hover': 'var(--color-content-primary-hover)',
+          'secondary': 'var(--color-content-secondary)',
+          'brand-primary': 'var(--color-content-brand-primary)',
+          'brand-secondary': 'var(--color-content-brand-secondary)',
+          'link': 'var(--color-content-link)',
+          'link-hover': 'var(--color-content-link-hover)',
+          'link-pressed': 'var(--color-content-link-pressed)',
+          'negative': 'var(--color-content-negative)',
+        },
+
+        // ==========================================
+        // BACKGROUND TOKENS (Generates: bg-bg-*)
+        // ==========================================
+        bg: {
+          'primary': 'var(--color-bg-primary)',
+          'primary-hover': 'var(--color-bg-primary-hover)',
+          'brand': 'var(--color-bg-brand)',
+          'brand-hover': 'var(--color-bg-brand-hover)',
+          'brand-pressed': 'var(--color-bg-brand-pressed)',
+        },
+
+        // ==========================================
+        // BORDER TOKENS (Generates: border-border-*)
+        // ==========================================
+        border: {
+          'primary': 'var(--color-border-primary)',
+          'secondary': 'var(--color-border-secondary)',
+          'negative': 'var(--color-border-negative)',
+          'focus': 'var(--color-border-focus)',
+        },
+
+        // ==========================================
+        // SURFACE TOKENS (Generates: bg-surface-* / text-surface-*)
+        // ==========================================
+        surface: {
+          'l1': 'var(--color-surface-l1)',
+          'l2': 'var(--color-surface-l2)',
+        },
+
+        // ==========================================
+        // OVERLAY TOKENS (Generates: bg-overlay-*)
+        // ==========================================
+        overlay: {
+          '50': 'var(--color-overlay-50)',
+        }
       },
-      "fontFamily": {
-        "body-md": ["Manrope"],
-        "label-lg": ["Manrope"],
-        "headline-md": ["Chivo"],
-        "headline-lg-mobile": ["Chivo"],
-        "label-md": ["Manrope"],
-        "headline-sm": ["Chivo"],
-        "body-lg": ["Manrope"],
-        "headline-lg": ["Chivo"]
+      spacing: {
+        '2xs':  '0.125rem',  // 2px
+        'xs':   '0.25rem',   // 4px
+        's':    '0.5rem',    // 8px
+        'm':    '0.75rem',   // 12px
+        'l':    '1rem',      // 16px
+        'xl':   '1.5rem',    // 24px
+        '2xl':  '2rem',      // 32px
+        '3xl':  '2.5rem',    // 40px
+        '4xl':  '3rem',      // 48px
+        '5xl':  '3.5rem',    // 56px
+        '6xl':  '4rem',      // 64px
+        '7xl':  '4.5rem',    // 72px
+        '8xl':  '5rem',      // 80px
+        '9xl':  '5.5rem',    // 88px
+        '10xl': '6.125rem',  // 98px
+        '11xl': '6.5rem',    // 104px
+        '12xl': '7rem',      // 112px
       },
-      "fontSize": {
-        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
-        "label-lg": ["14px", {"lineHeight": "1.2", "fontWeight": "600"}],
-        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "800"}],
-        "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "800"}],
-        "label-md": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
-        "headline-sm": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
-        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-        "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}]
-      }
     },
-  }
+  },
+  plugins: [],
+
 }
 
