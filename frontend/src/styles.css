@@ -4,6 +4,8 @@
 
 
 :root {
+  --font-display: 'Raleway', sans-serif;
+  --font-sans: 'Barlow Condensed', sans-serif;
   /* ==========================================================================
      1. PRIMITIVES (Base Palette)
      ========================================================================== */
@@ -59,9 +61,101 @@
   --color-overlay-50: rgba(255, 255, 255, 0.5); /* #FFFFFF with 0.5 alpha */
 }
 
+@layer components {
+
+  /* ==========================================================================
+     1. WEB TEXT VARIANTS (Raleway Family)
+     ========================================================================== */
+  .ds-text-style-text-xs-regular  { @apply font-sans text-text-xs font-normal; }
+  .ds-text-style-text-xs-semibold { @apply font-sans text-text-xs font-semibold; }
+  .ds-text-style-text-xs-bold     { @apply font-sans text-text-xs font-bold; }
+
+  .ds-text-style-text-s-regular   { @apply font-sans text-text-s font-normal; }
+  .ds-text-style-text-s-semibold  { @apply font-sans text-text-s font-semibold; }
+  .ds-text-style-text-s-bold      { @apply font-sans text-text-s font-bold; }
+
+  .ds-text-style-text-m-regular   { @apply font-sans text-text-m font-normal; }
+  .ds-text-style-text-m-semibold  { @apply font-sans text-text-m font-semibold; }
+  .ds-text-style-text-m-bold      { @apply font-sans text-text-m font-bold; }
+
+  .ds-text-style-text-l-regular   { @apply font-sans text-text-l font-normal; }
+  .ds-text-style-text-l-semibold  { @apply font-sans text-text-l font-semibold; }
+  .ds-text-style-text-l-bold      { @apply font-sans text-text-l font-bold; }
+
+  .ds-text-style-text-xl-regular  { @apply font-sans text-text-xl font-normal; }
+  .ds-text-style-text-xl-semibold { @apply font-sans text-text-xl font-semibold; }
+  .ds-text-style-text-xl-bold     { @apply font-sans text-text-xl font-bold; }
+
+
+  /* ==========================================================================
+     2. WEB HEADING VARIANTS (Barlow Condensed Family)
+     ========================================================================== */
+  .ds-text-style-heading-2xs-semibold { @apply font-brand text-heading-2xs font-semibold tracking-normal; }
+  .ds-text-style-heading-2xs-bold     { @apply font-brand text-heading-2xs font-bold tracking-normal; }
+
+  .ds-text-style-heading-xs-semibold  { @apply font-brand text-heading-xs font-semibold tracking-[-0.5px]; }
+  .ds-text-style-heading-xs-bold      { @apply font-brand text-heading-xs font-bold tracking-[-0.5px]; }
+
+  .ds-text-style-heading-s-semibold   { @apply font-brand text-heading-s font-semibold tracking-[-0.5px]; }
+  .ds-text-style-heading-s-bold       { @apply font-brand text-heading-s font-bold tracking-[-0.5px]; }
+
+  .ds-text-style-heading-m-semibold   { @apply font-brand text-heading-m font-semibold tracking-[-0.5px]; }
+  .ds-text-style-heading-m-bold       { @apply font-brand text-heading-m font-bold tracking-[-0.5px]; }
+
+  .ds-text-style-heading-l-semibold   { @apply font-brand text-heading-l font-semibold tracking-[-1px]; }
+  .ds-text-style-heading-l-bold       { @apply font-brand text-heading-l font-bold tracking-[-1px]; }
+
+  .ds-text-style-heading-xl-semibold  { @apply font-brand text-heading-xl font-semibold tracking-[-1px]; }
+  .ds-text-style-heading-xl-bold      { @apply font-brand text-heading-xl font-bold tracking-[-1px]; }
+
+  .ds-text-style-heading-2xl-semibold { @apply font-brand text-heading-2xl font-semibold tracking-[-1px]; }
+  .ds-text-style-heading-2xl-bold     { @apply font-brand text-heading-2xl font-bold tracking-[-1px]; }
+
+  .ds-text-style-heading-3xl-semibold { @apply font-brand text-heading-3xl font-semibold tracking-[-1px]; }
+  .ds-text-style-heading-3xl-bold     { @apply font-brand text-heading-3xl font-bold tracking-[-1px]; }
+
+  .ds-text-style-heading-4xl-semibold { @apply font-brand text-heading-4xl font-semibold tracking-[-1px]; }
+  .ds-text-style-heading-4xl-bold     { @apply font-brand text-heading-4xl font-bold tracking-[-1px]; }
+
+  .ds-text-style-heading-5xl-semibold { @apply font-brand text-heading-5xl font-semibold tracking-[-1px]; }
+  .ds-text-style-heading-5xl-bold     { @apply font-brand text-heading-5xl font-bold tracking-[-1px]; }
+
+  /* ==========================================================================
+     3. REUSABLE UI ELEMENT INTERACTION BASE
+     ========================================================================== */
+
+  /* Smooth transitions for all theme color changes (hover, active, focus) */
+  .ds-transition-theme {
+    @apply transition-colors duration-200 ease-in-out;
+  }
+
+  /* Interactive Links */
+  .ds-link-interactive {
+    @apply ds-text-style-text-s-bold text-content-link ds-transition-theme cursor-pointer underline;
+    @apply hover:text-content-link-hover active:text-content-link-pressed;
+  }
+
+  /* Focus rings for accessibility/inputs */
+/*  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-border-focus focus:border-transparent;
+  }*/
+}
+
+/* ==========================================================================
+   GLOBAL DESIGN SYSTEM RESETS
+   ========================================================================== */
 html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6, p, label {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure inputs utilize the default body font family */
+input, textarea, button, select {
+  font-family: inherit;
 }

@@ -1,37 +1,38 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  /*IDE configuration so it autocompletes our custom classes*/
+  safelist: [
+    { pattern: /^ds-/ },
+  ],
   content: [
-    "./src/**/*.{html,ts}"
+    "./src/**/*.{html,ts}",
+    "./src/styles.css"
   ],
   theme: {
     extend: {
       fontFamily: {
-        display: ['Raleway', 'sans-serif'],
-        sans: ['"Barlow Condensed"', 'sans-serif']
+        sans: ['Raleway', 'sans-serif'],
+        brand: ['"Barlow Condensed"', 'sans-serif']
       },
       fontSize: {
-        // --- HEADING VARIABLES (Generates: text-heading-*) ---
-        heading: {
-          'xs':  ['0.875rem', { lineHeight: '1.25rem' }], // 14px / 20px
-          's':   ['1rem', { lineHeight: '1.5rem' }],      // 16px / 24px
-          'm':   ['1.25rem', { lineHeight: '1.75rem' }],  // 20px / 28px
-          'l':   ['2rem', { lineHeight: '2.5rem' }],      // 32px / 40px
-          'xl':  ['2.5rem', { lineHeight: '3rem' }],      // 40px / 48px
-          '2xl': ['3rem', { lineHeight: '3.5rem' }],      // 48px / 56px
-          '3xl': ['3.5rem', { lineHeight: '4rem' }],      // 56px / 64px
-          '4xl': ['4rem', { lineHeight: '4.5rem' }],      // 64px / 72px
-          '5xl': ['4.5rem', { lineHeight: '5rem' }],      // 72px / 80px
-        },
+        // Headings
+        'heading-2xs': ['0.875rem', { lineHeight: '1.25rem' }],
+        'heading-xs':  ['1rem',     { lineHeight: '1.5rem' }],
+        'heading-s':   ['1.25rem',  { lineHeight: '1.75rem' }],
+        'heading-m':   ['1.5rem',   { lineHeight: '2rem' }],
+        'heading-l':   ['2rem',     { lineHeight: '2.5rem' }],
+        'heading-xl':  ['2.5rem',   { lineHeight: '3rem' }],
+        'heading-2xl': ['3rem',     { lineHeight: '3.5rem' }],
+        'heading-3xl': ['3.5rem',   { lineHeight: '4rem' }],
+        'heading-4xl': ['4rem',     { lineHeight: '4.5rem' }],
+        'heading-5xl': ['4.5rem',   { lineHeight: '5rem' }],
 
-        // --- BODY TEXT VARIABLES (Generates: text-text-*) ---
-        text: {
-          'xs':  ['0.625rem', { lineHeight: '0.875rem' }], // 10px / 14px
-          's':   ['0.75rem', { lineHeight: '1rem' }],      // 12px / 16px
-          'm':   ['0.875rem', { lineHeight: '1.25rem' }],  // 14px / 20px
-          'l':   ['1rem', { lineHeight: '1.5rem' }],      // 16px / 24px
-          'xl':  ['1.25rem', { lineHeight: '1.75rem' }],  // 20px / 28px
-          '2xl': ['1.5rem', { lineHeight: '2rem' }],      // 24px / 32px
-        }
+        // Text
+        'text-xs': ['0.625rem', { lineHeight: '0.875rem' }],
+        'text-s':  ['0.75rem',  { lineHeight: '1rem' }],
+        'text-m':  ['0.875rem', { lineHeight: '1.25rem' }],
+        'text-l':  ['1rem',     { lineHeight: '1.5rem' }],
+        'text-xl': ['1.25rem',  { lineHeight: '1.75rem' }],
       },
       colors: {
 
