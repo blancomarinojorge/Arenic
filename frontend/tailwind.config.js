@@ -107,6 +107,29 @@ module.exports = {
         '11xl': '6.5rem',    // 104px
         '12xl': '7rem',      // 112px
       },
+      // ==========================================
+      // BORDER RADIUS TOKENS (Generates: rounded-*)
+      // ==========================================
+      borderRadius: {
+        'circle': '50px',
+        'pill': '999px',
+        'l': '16px',
+        'm': '12px',
+        's': '8px',
+        'xs': '4px',
+        '2xs': '2px',
+      },
+
+      // ==========================================
+      // BORDER WIDTH TOKENS (Generates: border-*)
+      // ==========================================
+      borderWidth: {
+        'xl': '8px',
+        'l': '4px',
+        'm': '2px',
+        's': '1.5px',
+        'xs': '1px',
+      },
     },
   },
   plugins: [],

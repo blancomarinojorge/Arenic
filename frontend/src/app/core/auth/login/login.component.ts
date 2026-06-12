@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import {Component, signal, inject, NgZone} from '@angular/core';
 import {enviroment} from '../../../../enviroments/enviroment';
 import {GoogleLoginRequest} from '../auth.models';
+import {
+  TextInputComponent
+} from '../../../shared/components/forms/text-input-component/text-input.component';
+import {AppIconComponent} from '../../../shared/components/icons/app-icon/app-icon.component';
 
 /*since we add the google api via the script sdk, typescript doesnt know it exists
 We have to create the variable to be able to access it*/
@@ -13,7 +17,7 @@ declare const google: any;
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, TextInputComponent, AppIconComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -34,7 +38,9 @@ export class LoginComponent {
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]]
-  })
+  });
+  get email() { return this.form.controls.email }
+  get password() { return this.form.controls.password }
 
   onSubmit() {
     if (this.form.invalid || this.loading()) return;
