@@ -2,6 +2,7 @@ import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClubService } from '../../core/clubs/club.service';
 import { BookingService } from '../../core/bookings/booking.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { ClubDetail, CourtSummary, SlotEntry } from '../../core/clubs/club.models';
 import { NgClass } from '@angular/common';
 
@@ -33,6 +34,7 @@ export class ClubDetailComponent implements OnInit {
   private router = inject(Router);
   private clubService = inject(ClubService);
   private bookingService = inject(BookingService);
+  private authService = inject(AuthService);
 
   club = signal<ClubDetail | null>(null);
   loading = signal(true);
@@ -153,6 +155,10 @@ export class ClubDetailComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/clubs']);
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   confirmBooking(): void {

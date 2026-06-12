@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs';
 import { ClubService } from '../../core/clubs/club.service';
 import { ClubSearchResponse, ClubSummary } from '../../core/clubs/club.models';
+import { AuthService } from '../../core/auth/auth.service';
 import { TextInputComponent } from '../../shared/components/forms/text-input-component/text-input.component';
 import { FormsModule } from '@angular/forms';
 
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class ClubSearchComponent implements OnInit, OnDestroy {
   private clubService = inject(ClubService);
   private router = inject(Router);
+  private authService = inject(AuthService);
   private destroy$ = new Subject<void>();
   private search$ = new Subject<string>();
 
@@ -60,6 +62,10 @@ export class ClubSearchComponent implements OnInit, OnDestroy {
 
   goToClub(club: ClubSummary): void {
     this.router.navigate(['/clubs', club.id]);
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   ngOnDestroy(): void {
