@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -69,17 +70,17 @@ public class SecurityConfig {
 
                 // 4. Configuring general url authentication security
                 .authorizeHttpRequests(auth -> auth
-                        // 3.1 Anyone can access the login pages
+                        // Allow all CORS preflight requests before authentication checks
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Anyone can access the auth endpoints
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**").permitAll()
-                        // 3.2 Public info
-                        .requestMatchers(
-                                "/clubs/**"
-                        ).permitAll()
-                        // 3.2 Any other request, will have to be authenticated
+                        // Public info
+                        .requestMatchers("/clubs/**").permitAll()
+                        // Any other request must be authenticated
                         .anyRequest().authenticated()
                 )
 
@@ -200,8 +201,8 @@ public class SecurityConfig {
         // Allow standard HTTP methods
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // Allow the headers your frontend application sends
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+        // Allow all headers (browser preflight can send arbitrary request headers)
+        configuration.setAllowedHeaders(List.of("*"));
 
         // Allow browser credentials if you plan to use HTTP-only cookies later
         configuration.setAllowCredentials(true);

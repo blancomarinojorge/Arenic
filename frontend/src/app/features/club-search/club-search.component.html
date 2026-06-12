@@ -1,0 +1,119 @@
+<div class="min-h-screen bg-bg-primary flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-surface-l1 border-b border-border-secondary px-xl py-l flex items-center gap-m">
+    <img src="/images/logo.png" class="w-8 h-8">
+    <span class="ds-text-style-heading-xs-bold italic text-content-brand-primary">ARENIC</span>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex flex-col items-center px-l py-3xl gap-2xl flex-1">
+
+    <!-- Hero text -->
+    <div class="flex flex-col items-center gap-s text-center max-w-lg">
+      <h1 class="ds-text-style-heading-l-bold text-content-primary">Encuentra tu club</h1>
+      <p class="ds-text-style-text-l-regular text-content-secondary">
+        Busca por nombre de club o ciudad
+      </p>
+    </div>
+
+    <!-- Search box -->
+    <div class="w-full max-w-lg">
+      <label class="flex flex-row items-center gap-s text-content-secondary bg-bg-primary
+                    border border-border-primary px-m py-s rounded-s
+                    focus-within:border-border-focus ds-transition-theme">
+        <!-- search icon -->
+        <svg class="w-xl h-xl flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          type="search"
+          placeholder="Madrid, Club Serrano..."
+          [value]="query()"
+          (input)="onQueryChange($any($event.target).value)"
+          class="outline-none border-none bg-transparent w-full ds-text-style-text-l-regular text-content-primary placeholder:text-content-secondary"
+        />
+      </label>
+    </div>
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="flex flex-col gap-m w-full max-w-2xl">
+        @for (i of [1,2,3]; track i) {
+          <div class="h-24 bg-surface-l2 rounded-m animate-pulse"></div>
+        }
+      </div>
+    }
+
+    <!-- City pills (from results) -->
+    @if (!loading() && results()?.cities?.length) {
+      <div class="flex flex-wrap gap-s justify-center">
+        @for (city of results()!.cities; track city.city) {
+          <button
+            (click)="filterByCity(city.city)"
+            class="px-l py-xs rounded-pill border border-border-secondary bg-surface-l2
+                   ds-text-style-text-s-semibold text-content-secondary
+                   hover:border-border-focus hover:text-content-brand-primary ds-transition-theme"
+          >
+            {{ city.city }}
+            <span class="ml-xs text-content-secondary ds-text-style-text-xs-regular">({{ city.clubCount }})</span>
+          </button>
+        }
+      </div>
+    }
+
+    <!-- Club cards -->
+    @if (!loading() && results()?.clubs?.length) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-l w-full max-w-4xl">
+        @for (club of results()!.clubs; track club.id) {
+          <div class="bg-surface-l1 border border-border-secondary rounded-m p-xl
+                      flex flex-col gap-m hover:border-border-focus ds-transition-theme">
+
+            <!-- Club info -->
+            <div class="flex flex-col gap-xs flex-1">
+              <h3 class="ds-text-style-heading-xs-bold text-content-primary">{{ club.name }}</h3>
+              <p class="ds-text-style-text-s-regular text-content-secondary flex items-center gap-xs">
+                <!-- location icon -->
+                <svg class="w-l h-l flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/>
+                </svg>
+                {{ club.city }} · {{ club.addressLine1 }}
+              </p>
+              <p class="ds-text-style-text-s-regular text-content-secondary">
+                {{ club.courtCount }} {{ club.courtCount === 1 ? 'pista' : 'pistas' }}
+              </p>
+            </div>
+
+            <!-- CTA -->
+            <button
+              (click)="goToClub(club)"
+              class="bg-bg-brand hover:bg-bg-brand-hover text-content-primary-inverse
+                     ds-text-style-text-m-bold py-s rounded-s ds-transition-theme text-center"
+            >
+              Reservar pista
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Empty state (after search with no results) -->
+    @if (!loading() && hasSearched() && !results()?.clubs?.length) {
+      <div class="flex flex-col items-center gap-m text-center">
+        <svg class="w-12xl h-12xl text-content-secondary opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <p class="ds-text-style-text-l-semibold text-content-primary">No hemos encontrado clubs</p>
+        <p class="ds-text-style-text-m-regular text-content-secondary">Prueba con otra ciudad o nombre</p>
+      </div>
+    }
+
+    <!-- Initial prompt (before any search) -->
+    @if (!loading() && !hasSearched()) {
+      <p class="ds-text-style-text-m-regular text-content-secondary">
+        Escribe al menos 2 caracteres para buscar
+      </p>
+    }
+
+  </main>
+</div>

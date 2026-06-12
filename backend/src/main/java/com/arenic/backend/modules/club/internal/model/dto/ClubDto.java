@@ -3,6 +3,7 @@ package com.arenic.backend.modules.club.internal.model.dto;
 import com.arenic.backend.modules.club.internal.model.Club;
 import com.arenic.backend.modules.club.internal.model.Court;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,4 +74,15 @@ public class ClubDto {
             List<CityResult> cities,
             List<Summary> clubs
     ){}
+
+    public record SlotEntry(
+            UUID courtId,
+            String startTime,
+            String endTime,
+            int intervalMinutes,
+            BigDecimal price,
+            BigDecimal memberPrice,
+            String currency,
+            String gameMode
+    ) {}
 }

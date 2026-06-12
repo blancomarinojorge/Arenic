@@ -42,6 +42,13 @@ export class TextInputComponent implements ControlValueAccessor{
   // ngControl represents the formControl object of this component (self:true)
   private ngControl = inject(NgControl, { optional: true, self: true });
 
+  constructor() {
+    // Must be set in constructor — ngOnInit is too late for Angular's formControlName wiring
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
   @Input() id?: string;
   @Input() name?: string;
   @Input() icon?: AppIconName;
@@ -80,14 +87,6 @@ export class TextInputComponent implements ControlValueAccessor{
       'border-border-primary': !this.hasError && !this.isFocused,
       'border-border-focus': !this.hasError && this.isFocused,
       'border-border-negative': this.hasError
-    }
-  }
-
-  /*Boilerplate*/
-  ngOnInit():void {
-    if(this.ngControl){
-      //wire this component as the value accessor
-      this.ngControl.valueAccessor = this;
     }
   }
 

@@ -1,0 +1,182 @@
+<div class="min-h-screen bg-bg-primary flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-surface-l1 border-b border-border-secondary px-xl py-l flex items-center gap-l sticky top-0 z-10">
+    <button
+      (click)="goBack()"
+      class="flex items-center gap-xs text-content-secondary hover:text-content-primary ds-transition-theme"
+    >
+      <!-- chevron-left -->
+      <svg class="w-xl h-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+      <span class="ds-text-style-text-m-regular">Volver</span>
+    </button>
+
+    @if (club()) {
+      <div class="flex flex-col">
+        <h1 class="ds-text-style-heading-xs-bold text-content-primary">{{ club()!.name }}</h1>
+        <p class="ds-text-style-text-s-regular text-content-secondary">{{ club()!.city }} · {{ club()!.addressLine1 }}</p>
+      </div>
+    }
+  </header>
+
+  <!-- Loading state -->
+  @if (loading()) {
+    <div class="flex-1 flex items-center justify-center">
+      <div class="flex flex-col gap-m items-center text-content-secondary">
+        <div class="w-8xl h-8xl rounded-circle border-m border-border-secondary border-t-content-brand-primary animate-spin"></div>
+        <p class="ds-text-style-text-m-regular">Cargando pistas...</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error state -->
+  @if (!loading() && error()) {
+    <div class="flex-1 flex items-center justify-center">
+      <p class="ds-text-style-text-l-regular text-content-negative">{{ error() }}</p>
+    </div>
+  }
+
+  <!-- Success banner -->
+  @if (bookingSuccess()) {
+    <div class="bg-bg-brand text-content-primary-inverse px-xl py-l flex items-center justify-between">
+      <div class="flex items-center gap-m">
+        <svg class="w-xl h-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l5 5L20 7"/>
+        </svg>
+        <span class="ds-text-style-text-m-semibold">¡Reserva confirmada! Revisa tu correo.</span>
+      </div>
+      <button (click)="bookingSuccess.set(false)" class="ds-text-style-text-s-regular opacity-80 hover:opacity-100">✕</button>
+    </div>
+  }
+
+  <!-- Main booking content -->
+  @if (!loading() && !error() && club()) {
+    <main class="flex-1 flex flex-col gap-2xl px-l py-2xl max-w-4xl mx-auto w-full">
+
+      <!-- Date selector -->
+      <section class="flex flex-col gap-m">
+        <h2 class="ds-text-style-text-m-semibold text-content-secondary uppercase tracking-widest">Selecciona fecha</h2>
+        <div class="flex gap-m overflow-x-auto pb-xs">
+          @for (date of dates; track date.getTime()) {
+            <button
+              (click)="selectDate(date)"
+              [ngClass]="{
+                'bg-bg-brand text-content-primary-inverse border-bg-brand': isSameDay(date, selectedDate()),
+                'bg-bg-primary text-content-primary border-border-secondary hover:border-border-focus': !isSameDay(date, selectedDate())
+              }"
+              class="flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-s border ds-transition-theme"
+            >
+              <span class="ds-text-style-text-xs-regular opacity-70">{{ formatDate(date).month }}</span>
+              <span class="ds-text-style-heading-xs-bold">{{ formatDate(date).day }}</span>
+              <span class="ds-text-style-text-xs-regular">{{ formatDate(date).weekday }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      <!-- Court grid -->
+      <section class="flex flex-col gap-l">
+        <h2 class="ds-text-style-text-m-semibold text-content-secondary uppercase tracking-widest">Selecciona pista y hora</h2>
+
+        <div class="overflow-x-auto">
+          <div class="min-w-max">
+
+            <!-- Time header row -->
+            <div class="flex gap-2xs mb-2xs">
+              <div class="w-36 flex-shrink-0"></div>
+              @for (slot of hours; track slot.hour) {
+                <div class="w-14 text-center ds-text-style-text-xs-regular text-content-secondary flex-shrink-0">
+                  {{ slot.label }}
+                </div>
+              }
+            </div>
+
+            <!-- Court rows -->
+            @for (court of club()!.courts; track court.id) {
+              <div class="flex gap-2xs mb-2xs items-center">
+                <!-- Court label -->
+                <div class="w-36 flex-shrink-0 pr-m">
+                  <p class="ds-text-style-text-s-semibold text-content-primary truncate">{{ court.name }}</p>
+                  <p class="ds-text-style-text-xs-regular text-content-secondary">{{ court.courtType }}</p>
+                </div>
+
+                <!-- Time slots -->
+                @for (h of hours; track h.hour) {
+                  @if (slotMap().get(court.id)?.get(h.hour); as slotEntry) {
+                    <button
+                      (click)="selectSlot(court, h.hour, slotEntry)"
+                      [ngClass]="{
+                        'bg-bg-brand text-content-primary-inverse border-bg-brand shadow-sm scale-105 z-10': isSelected(court.id, h.hour),
+                        'bg-bg-primary border-border-secondary hover:border-border-focus hover:bg-bg-primary-hover': !isSelected(court.id, h.hour)
+                      }"
+                      class="w-14 h-12 rounded-xs border flex-shrink-0 ds-transition-theme flex flex-col items-center justify-center"
+                    >
+                      <span class="ds-text-style-text-xs-regular leading-none">{{ h.label }}</span>
+                      <span class="ds-text-style-text-xs-semibold leading-none">{{ slotEntry.price }}€</span>
+                    </button>
+                  } @else {
+                    <div class="w-14 h-12 rounded-xs flex-shrink-0 bg-surface-l2 flex items-center justify-center opacity-40">
+                      <span class="ds-text-style-text-xs-regular text-content-secondary">—</span>
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex items-center gap-l flex-wrap">
+          <div class="flex items-center gap-xs">
+            <div class="w-l h-l rounded-2xs border border-border-secondary bg-bg-primary"></div>
+            <span class="ds-text-style-text-xs-regular text-content-secondary">Disponible</span>
+          </div>
+          <div class="flex items-center gap-xs">
+            <div class="w-l h-l rounded-2xs bg-bg-brand"></div>
+            <span class="ds-text-style-text-xs-regular text-content-secondary">Seleccionada</span>
+          </div>
+          <div class="flex items-center gap-xs">
+            <div class="w-l h-l rounded-2xs bg-surface-l2 opacity-40"></div>
+            <span class="ds-text-style-text-xs-regular text-content-secondary">Sin horario</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  }
+
+  <!-- Sticky bottom confirm bar -->
+  @if (!loading() && !error() && club()) {
+    <div class="sticky bottom-0 bg-surface-l1 border-t border-border-secondary px-xl py-l">
+      <div class="flex items-center justify-between max-w-4xl mx-auto">
+
+        <!-- Selection summary -->
+        <div class="flex flex-col gap-2xs">
+          @if (selectedSlot()) {
+            <p class="ds-text-style-text-m-semibold text-content-primary">{{ selectedCourtName() }}</p>
+            <p class="ds-text-style-text-s-regular text-content-secondary">{{ selectedSlotLabel() }}</p>
+            <p class="ds-text-style-heading-xs-bold text-content-brand-primary">{{ slotPrice() }}€</p>
+          } @else {
+            <p class="ds-text-style-text-m-regular text-content-secondary">Selecciona una pista y hora</p>
+          }
+        </div>
+
+        <!-- Confirm button -->
+        <button
+          (click)="confirmBooking()"
+          [disabled]="!selectedSlot() || bookingLoading()"
+          class="bg-bg-brand hover:bg-bg-brand-hover active:bg-bg-brand-pressed
+                 text-content-primary-inverse ds-text-style-text-m-bold
+                 px-3xl py-m rounded-s ds-transition-theme
+                 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {{ bookingLoading() ? 'Procesando...' : 'Confirmar reserva' }}
+        </button>
+
+      </div>
+    </div>
+  }
+
+</div>

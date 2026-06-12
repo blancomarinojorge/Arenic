@@ -49,7 +49,7 @@ export class LoginComponent {
     this.errorMessage.set('');
 
     this.authService.login(this.form.getRawValue()).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => this.router.navigate(['/clubs']),
       error: (err) => {
         this.errorMessage.set(
           err.status === 401
@@ -92,7 +92,7 @@ export class LoginComponent {
     const googleLoginRequest: GoogleLoginRequest = {idToken: response.credential};
 
     this.authService.googleLogin(googleLoginRequest).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => this.router.navigate(['/clubs']),
       error: () => {
         this.errorMessage.set('Google sign-in failed. Try again.');
         this.loading.set(false);

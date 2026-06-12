@@ -1,18 +1,30 @@
 package com.arenic.backend.modules.club.api;
 
 import com.arenic.backend.modules.club.internal.model.Club;
+import com.arenic.backend.modules.club.internal.model.Court;
+import com.arenic.backend.modules.club.internal.model.PriceRule;
+import com.arenic.backend.modules.club.internal.model.PriceRuleInterval;
 import com.arenic.backend.modules.club.internal.model.dto.ClubDto;
 import com.arenic.backend.modules.club.internal.repository.ClubRepository;
+import com.arenic.backend.modules.club.internal.repository.PriceRuleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ClubService{
     final ClubRepository clubRepository;
+    final PriceRuleRepository priceRuleRepository;
 
     @Transactional(readOnly = true)
     public ClubDto.SearchResponse search(String query){
@@ -43,5 +55,58 @@ public class ClubService{
                 .toList();
 
         return new ClubDto.SearchResponse(cityResults, summaries);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<ClubDto.Detail> findById(UUID id) {
+        return clubRepository.findById(id).map(ClubDto.Detail::from);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ClubDto.SlotEntry> getSlots(UUID clubId, LocalDate date) {
+        Optional<Club> clubOpt = clubRepository.findById(clubId);
+        if (clubOpt.isEmpty()) return List.of();
+
+        Club club = clubOpt.get();
+        int dayOfWeek = date.getDayOfWeek().getValue(); // 1=Mon, 7=Sun
+
+        List<PriceRule> rules = priceRuleRepository.findByClubId(clubId);
+        List<ClubDto.SlotEntry> result = new ArrayList<>();
+
+        for (Court court : club.getCourts()) {
+            if (!court.isActive()) continue;
+
+            for (PriceRule rule : rules) {
+                if (!rule.getCourtIds().contains(court.getId())) continue;
+                if (!rule.getWeekDays().contains((short) dayOfWeek)) continue;
+
+                for (PriceRuleInterval interval : rule.getIntervals()) {
+                    if (interval.getIntervalMinutes() != 60) continue;
+
+                    LocalTime cursor = rule.getStartTime();
+                    while (!cursor.plusMinutes(60).isAfter(rule.getEndTime())) {
+                        LocalTime slotEnd = cursor.plusMinutes(60);
+                        BigDecimal memberPrice = interval.getTotalPrice()
+                                .multiply(BigDecimal.valueOf(
+                                        1.0 - interval.getMemberDiscountPercent() / 100.0))
+                                .setScale(2, RoundingMode.HALF_UP);
+
+                        result.add(new ClubDto.SlotEntry(
+                                court.getId(),
+                                cursor.toString(),
+                                slotEnd.toString(),
+                                60,
+                                interval.getTotalPrice(),
+                                memberPrice,
+                                interval.getCurrency(),
+                                interval.getGameMode()
+                        ));
+                        cursor = slotEnd;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }

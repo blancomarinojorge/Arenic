@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "clubs")
-@SQLRestriction("isActive = true and deleted_at is null")
+@SQLRestriction("is_active = true and deleted_at is null")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Club extends BaseEntity {
 
@@ -31,7 +31,7 @@ public class Club extends BaseEntity {
     private User creator;
 
     @Builder.Default
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
     @OneToMany(mappedBy = "club", fetch = FetchType.EAGER)
