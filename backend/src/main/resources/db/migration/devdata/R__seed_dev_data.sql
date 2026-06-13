@@ -113,11 +113,17 @@ WHERE c.creator_id = (SELECT id FROM users WHERE email = 'admin@arenic.com');
 -- ============================================================
 -- 5. CLUB MEMBERSHIPS  (admin is OWNER of all dev clubs)
 -- ============================================================
+INSERT INTO club_membership_roles(slug, display_name, short_display_name, description) VALUES
+    ('OWNER',   'Administrador', 'Admin',   'El dueño del club'),
+    ('MANAGER', 'Gestor',        'Gestor',  'Gestor del club'),
+    ('STAFF',   'Staff',         'Staff',   'Personal del club'),
+    ('PLAYER',  'Jugador',       'Jugador', 'Jugador del club');
+
 INSERT INTO club_memberships (user_id, club_id, club_membership_role_slug)
 SELECT
     (SELECT id FROM users WHERE email = 'admin@arenic.com'),
     c.id,
-    'owner'
+    'OWNER'
 FROM clubs c
 WHERE c.creator_id = (SELECT id FROM users WHERE email = 'admin@arenic.com');
 
@@ -125,7 +131,7 @@ INSERT INTO club_memberships (user_id, club_id, club_membership_role_slug)
 SELECT
     (SELECT id FROM users WHERE email = 'player@arenic.com'),
     c.id,
-    'player'
+    'PLAYER'
 FROM clubs c
 WHERE c.creator_id = (SELECT id FROM users WHERE email = 'admin@arenic.com');
 
@@ -133,125 +139,44 @@ WHERE c.creator_id = (SELECT id FROM users WHERE email = 'admin@arenic.com');
 -- 6. COURTS
 -- ============================================================
 
+INSERT INTO court_types(slug, display_name, short_display_name, description) VALUES
+    ('PADEL',        'Pádel',           'Pádel',    'Pista de pádel'),
+    ('TENNIS_GRASS', 'Tenis Hierba',    'T. Hierba', 'Pista de tenis de hierba'),
+    ('TENNIS_HARD',  'Tenis Dura',      'T. Dura',   'Pista de tenis de superficie dura'),
+    ('PICKLEBALL',   'Pickleball',      'Pickle',    'Pista de pickleball');
+
 -- Real Madrid Padel Center — 4 pistas pádel + 2 tenis
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel Indoor','Pista 2 — Pádel Indoor','Pista 3 — Pádel Outdoor','Pista 4 — Pádel Outdoor']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Real Madrid Padel Center';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 5 — Tenis','Pista 6 — Tenis']),
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Real Madrid Padel Center';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel Indoor','Pista 2 — Pádel Indoor','Pista 3 — Pádel Outdoor','Pista 4 — Pádel Outdoor']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Real Madrid Padel Center';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 5 — Tenis','Pista 6 — Tenis']),       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Real Madrid Padel Center';
 -- Madrid Sports Club — 3 pádel + 2 tenis + 1 pickleball
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Madrid Sports Club';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 4 — Tenis Hard','Pista 5 — Tenis Hard']),
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Madrid Sports Club';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, 'Pista 6 — Pickleball',
-       'PICKLEBALL', true, NOW()
-FROM clubs WHERE name = 'Madrid Sports Club';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Madrid Sports Club';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 4 — Tenis Hard','Pista 5 — Tenis Hard']),       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Madrid Sports Club';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, 'Pista 6 — Pickleball',       'PICKLEBALL', true, NOW()FROM clubs WHERE name = 'Madrid Sports Club';
 -- Gran Vía Tennis Academy — 4 tenis hard + 2 tenis grass
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Tenis Hard','Pista 2 — Tenis Hard','Pista 3 — Tenis Hard','Pista 4 — Tenis Hard']),
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Gran Vía Tennis Academy';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 5 — Tenis Hierba','Pista 6 — Tenis Hierba']),
-       'TENNIS_GRASS', true, NOW()
-FROM clubs WHERE name = 'Gran Vía Tennis Academy';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Tenis Hard','Pista 2 — Tenis Hard','Pista 3 — Tenis Hard','Pista 4 — Tenis Hard']),       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Gran Vía Tennis Academy';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 5 — Tenis Hierba','Pista 6 — Tenis Hierba']),       'TENNIS_GRASS', true, NOW()FROM clubs WHERE name = 'Gran Vía Tennis Academy';
 -- Velázquez Padel Club — 4 pádel
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Velázquez Padel Club';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Velázquez Padel Club';
 -- Barcelona Tennis Academy — 3 tenis hard + 2 tenis grass + 1 pádel
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Tenis Hard','Pista 2 — Tenis Hard','Pista 3 — Tenis Hard']),
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Barcelona Tennis Academy';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 4 — Tenis Hierba','Pista 5 — Tenis Hierba']),
-       'TENNIS_GRASS', true, NOW()
-FROM clubs WHERE name = 'Barcelona Tennis Academy';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, 'Pista 6 — Pádel',
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Barcelona Tennis Academy';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Tenis Hard','Pista 2 — Tenis Hard','Pista 3 — Tenis Hard']),       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Barcelona Tennis Academy';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 4 — Tenis Hierba','Pista 5 — Tenis Hierba']),       'TENNIS_GRASS', true, NOW()FROM clubs WHERE name = 'Barcelona Tennis Academy';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, 'Pista 6 — Pádel',       'PADEL', true, NOW()FROM clubs WHERE name = 'Barcelona Tennis Academy';
 -- Balmes Padel Center — 4 pádel + 1 pickleball
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Balmes Padel Center';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, 'Pista 5 — Pickleball',
-       'PICKLEBALL', true, NOW()
-FROM clubs WHERE name = 'Balmes Padel Center';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Balmes Padel Center';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, 'Pista 5 — Pickleball',       'PICKLEBALL', true, NOW()FROM clubs WHERE name = 'Balmes Padel Center';
 -- Eixample Sports Club — 2 pádel + 2 tenis + 2 pickleball
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Eixample Sports Club';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 3 — Tenis Hard','Pista 4 — Tenis Hard']),
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Eixample Sports Club';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 5 — Pickleball','Pista 6 — Pickleball']),
-       'PICKLEBALL', true, NOW()
-FROM clubs WHERE name = 'Eixample Sports Club';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Eixample Sports Club';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 3 — Tenis Hard','Pista 4 — Tenis Hard']),       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Eixample Sports Club';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 5 — Pickleball','Pista 6 — Pickleball']),       'PICKLEBALL', true, NOW()FROM clubs WHERE name = 'Eixample Sports Club';
 -- Málaga Padel & Tennis — 3 pádel + 2 tenis
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Málaga Padel & Tennis';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 4 — Tenis','Pista 5 — Tenis']),
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Málaga Padel & Tennis';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Málaga Padel & Tennis';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 4 — Tenis','Pista 5 — Tenis']),       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Málaga Padel & Tennis';
 -- Sevilla Racket Club — 4 pádel
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Sevilla Racket Club';
-
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Sevilla Racket Club';
 -- Valencia Padel Arena — 4 pádel + 1 tenis + 1 pickleball
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),
-       'PADEL', true, NOW()
-FROM clubs WHERE name = 'Valencia Padel Arena';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, 'Pista 5 — Tenis',
-       'TENNIS_HARD', true, NOW()
-FROM clubs WHERE name = 'Valencia Padel Arena';
-
-INSERT INTO courts (club_id, name, court_type, is_active, created_at)
-SELECT id, 'Pista 6 — Pickleball',
-       'PICKLEBALL', true, NOW()
-FROM clubs WHERE name = 'Valencia Padel Arena';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY['Pista 1 — Pádel','Pista 2 — Pádel','Pista 3 — Pádel','Pista 4 — Pádel']),       'PADEL', true, NOW()FROM clubs WHERE name = 'Valencia Padel Arena';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, 'Pista 5 — Tenis',       'TENNIS_HARD', true, NOW()FROM clubs WHERE name = 'Valencia Padel Arena';
+INSERT INTO courts (club_id, name, court_type, is_active, created_at)SELECT id, unnest(ARRAY ['Pista 6 — Pickleball']),       'PICKLEBALL', true, NOW()FROM clubs WHERE name = 'Valencia Padel Arena';
 
 -- ============================================================
 -- 7. COURT GAME MODES
@@ -260,6 +185,10 @@ FROM clubs WHERE name = 'Valencia Padel Arena';
 -- Pickleball  → SINGLES + DOUBLES
 -- (Only for dev clubs to avoid touching unrelated courts)
 -- ============================================================
+INSERT INTO game_modes(slug, display_name, short_display_name, description, number_of_players) VALUES
+    ('SINGLES', 'Individual', 'Singles', 'Partido individual, 1 contra 1', 2),
+    ('DOUBLES', 'Dobles',     'Dobles',  'Partido de dobles, 2 contra 2',  4);
+
 INSERT INTO court_game_modes (court_id, game_mode_slug)
 SELECT ct.id, 'DOUBLES'
 FROM courts ct

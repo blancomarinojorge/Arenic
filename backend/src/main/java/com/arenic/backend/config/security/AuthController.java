@@ -1,10 +1,13 @@
 package com.arenic.backend.config.security;
 
 import com.arenic.backend.config.security.dto.*;
+import com.arenic.backend.modules.identity.internal.model.User;
+import com.arenic.backend.modules.identity.internal.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     final AuthService authService;
+    final UserRepository userRepository;
+    final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<AuthDto.Response> login(@Valid @RequestBody AuthDto.LoginRequest request){

@@ -70,8 +70,6 @@ public class SecurityConfig {
 
                 // 4. Configuring general url authentication security
                 .authorizeHttpRequests(auth -> auth
-                        // Allow all CORS preflight requests before authentication checks
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Anyone can access the auth endpoints
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(
