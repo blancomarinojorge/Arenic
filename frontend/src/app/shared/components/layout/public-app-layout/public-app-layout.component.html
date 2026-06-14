@@ -1,1 +1,16 @@
-<p>public-app-layout works!</p>
+<div class="w-full">
+  <header class="flex flex-row justify-between px-l py-m md:px-4xl">
+    <img src="images/logo.png" class="w-12 object-contain">
+    <nav class="flex flex-row gap-xl p-s ds-text-style-text-l-regular items-center">
+      @if (authservice.isAuthenticated()){
+        <div (click)="authservice.logout()" class="text-content-primary hover:cursor-pointer hover:text-content-primary-hover">
+          <app-app-icon icon="logout"/>
+        </div>
+      } @else {
+        <a routerLink="/login" class="text-content-primary cursor-pointer hover:text-content-secondary">Login</a>
+        <a routerLink="/login" class="text-content-link hover:text-content-link-hover">Sign in</a>
+      }
+    </nav>
+  </header>
+  <router-outlet></router-outlet>
+</div>

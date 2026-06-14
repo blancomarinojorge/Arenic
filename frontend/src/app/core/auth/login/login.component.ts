@@ -35,6 +35,7 @@ export class LoginComponent {
   /*****************
   * User and password form validation
   * */
+  submited = signal(false);
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]]
@@ -43,7 +44,16 @@ export class LoginComponent {
   get password() { return this.form.controls.password }
 
   onSubmit() {
-    if (this.form.invalid || this.loading()) return;
+    /*If invalid we show the errors in the inputs*/
+    if (this.form.invalid){
+      Object.keys(this.form.controls).forEach(controlKey => {
+        this.form.get(controlKey)?.markAsTouched()
+      })
+      return;
+    }
+
+    /* If loading we dont submit again */
+    if (this.loading()) return;
 
     this.loading.set(true);
     this.errorMessage.set('');

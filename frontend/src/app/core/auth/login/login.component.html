@@ -32,7 +32,7 @@
             placeholder="tu@email.com"
             formControlName="email"
           />
-          @if (email.invalid && email.dirty) {
+          @if (email.invalid && email.touched) {
             <span class="ds-text-style-text-s-regular text-content-negative">
               Introduce un correo electrónico válido
             </span>
@@ -51,9 +51,11 @@
             placeholder="••••••••"
             formControlName="password"
           />
-          @if (password.invalid && password.dirty) {
+          @if (password.invalid && password.touched) {
             <span class="ds-text-style-text-s-regular text-content-negative">
-              La contraseña es obligatoria
+              @if (password.hasError('required')) {
+                La contraseña es obligatoria
+              }
             </span>
           }
         </div>

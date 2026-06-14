@@ -59,6 +59,15 @@
   --color-surface-l1: var(--primitive-white);
   --color-surface-l2: var(--primitive-brand-150);
   --color-overlay-50: rgba(255, 255, 255, 0.5); /* #FFFFFF with 0.5 alpha */
+
+  /* Icon size tokens */
+  --icon-size-2xs: 0.875rem;   /* 14px */
+  --icon-size-xs: 1rem;        /* 16px */
+  --icon-size-s: 1.25rem;      /* 20px */
+  --icon-size-m: 1.5rem;       /* 24px */
+  --icon-size-l: 2rem;         /* 32px */
+  --icon-size-xl: 2.5rem;      /* 40px */
+  --icon-size-2xl: 3rem;       /* 48px */
 }
 
 @layer components {

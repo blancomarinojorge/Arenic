@@ -130,6 +130,9 @@ module.exports = {
         's': '1.5px',
         'xs': '1px',
       },
+      maxWidth: {
+        'public-main': '90rem' // 1440px ÷ 16 = 90rem
+      }
     },
   },
   plugins: [],
