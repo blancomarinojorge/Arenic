@@ -1,15 +1,44 @@
 # Tu título del Proyecto fin de ciclo
 
-> *TODO*: Este documento será la "*página de aterrizaje*" de tu proyecto. Será lo primero que vean los que se interesen por él. Cúida su redacción con todo tu mimo. Elimina posteriormente todas las lineas "*TODO*" cuando creas finalizada su redacción.
-> Puedes acompañar a la redacción de este fichero con imágenes o gifs, pero no abuses de ellos.
-
 ## Descripción
 
-> *TODO*: Realiza una breve descripción del proyecto. No menos de 100 palabras y no más de 300. Resalta lo fundamental **con tus propias palabras**. Utiliza un lenguaje correcto, **pero natural**, que lo entienda todo el mundo, incluso y en especial, las personas que no tengan un conocimiento técnico avanzado. Puede ser un estracto o resumen de apartados que ya contemples en otros ficheros.
+**Arenic** é unha aplicación web enfocada nos procesos de reserva de pistas de tenis,
+pádel e pickleball, dirixida tanto aos clubes que dispoñen das instalacións como
+aos xogadores que queren reservalas de maneira rápida e fiable.
+
+### Para os clubes
+Os clubes poden configurar as súas pistas,
+establecer horarios e definir prezos de forma sinxela. O sistema permite aplicar descontos
+exclusivos para socios e membros, fomentando a fidelidade. Toda a xestión de reservas queda centralizada,
+eliminando chamadas telefónicas e anotacións en papel.
+
+### Para os xogadores
+Os xogadores poden consultar a dispoñibilidade en tempo real e confirmar a súa reserva en segundos. Arenic
+inclúe unha funcionalidade de división do pagamento entre participantes, de xeito que cada xogador pode aboar
+a súa parte de forma independente, sen que ninguén teña que adiantar o importe total.
 
 ## Instalación / Puesta en marcha
 
-> *TODO*: En este apartado describe con toda precisión y a poder ser con la mayor simplicidad/facilidad posible, cómo poner en marcha tu aplicación para probarla (en un ambiente local). Se valorará muy positivamente que este proceso sea lo más fácil posible, con una simple instrucción (p. e. un script de instalación). Docker es ideal para esto.
+### Demo pública
+
+A aplicación atopase despregada nun VPS, polo que se pode acceder mediante a url https://arenic.online.
+
+Facilitase un usuario de proba:
+
+#todo usuario de proba
+
+```text
+
+```
+
+### Entorno local e desenvolvemento
+
+Para o despregamento local será preciso ter instalado **Docker** e **Git**. Permitindo executar a aplicación seguindo os seguintes pasos:
+1. Descargar o repositorio:
+    ```shell
+    git clone https://gitlab.iessanclemente.net/dawd/a17jorgebm1.git
+    ```
+2. 
 
 ## Uso
 
