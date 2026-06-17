@@ -1,6 +1,7 @@
 spring:
   config:
-    import: "file:../.env[.properties]"
+    #we make it optional because is just for local dev, since inside the prd docker the env var are loaded with env_file:
+    import: "optional:file:../.env[.properties]"
   application:
     name: backend
 
