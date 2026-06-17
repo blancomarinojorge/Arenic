@@ -2,6 +2,7 @@ services:
   db:
     image: postgres:17-alpine
     container_name: postgres_db
+    restart: unless-stopped
     environment:
       POSTGRES_DB: myappdb
       POSTGRES_USER: ${DB_USER}
@@ -18,9 +19,12 @@ services:
     container_name: spring_backend
     depends_on:
       - db
+    restart: unless-stopped
     # I connect via nginx (frontend service container) so no need to export the port
     #ports:
     #  - "8080:8080"
+    env_file:
+      - .env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/myappdb
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
@@ -32,6 +36,7 @@ services:
     container_name: angular_frontend
     depends_on:
       - backend
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
