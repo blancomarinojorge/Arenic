@@ -16,31 +16,50 @@
             - [Pago de pistas](#pago-de-pistas)
             - [Dias da semana](#dias-da-semana)
     - [Desarrollo](#desarrollo)
-        - [Creacion de repositorio github](#creacion-de-repositorio-github)
-        - [Creacion de VPS e dominio](#creacion-de-vps-en-digitalocean-e-dominio-en-namecheap)
+        - [Arquitectura](#arquitectura)
     - [Base do deseño UI e identidade da empresa](#base-do-deseño-ui-e-identidade-da-empresa)
         - [Nome da aplicación](#nome-da-aplicación)
         - [Logo](#logo)
 - [Configuración do entorno](#configuración-do-entorno)
     - [Configuración do VPS](#configuración-do-vps)
+        - [Creacion de repositorio github](#creacion-de-repositorio-github)
+        - [Creacion de VPS e dominio](#creacion-de-vps-en-digitalocean-e-dominio-en-namecheap)
         - [Configuración nginx con SSL](#configuración-nginx-con-ssl)
     - [Entorno local](#entorno-local)
-    - [Migracions - Flyway](#migracions)
-        - [Tests e local](#tests-e-local)
 - [Backend - Springboot](#backend---springboot)
     - [Estructura](#estructura-)
     - [Localizacion de clubs](#localización-de-clubs)
     - [Documentación de api](#documentación-de-api)
     - [Seguridade - Spring Security](#seguridade---spring-security)
+        - [Xestión de sesión stateless](#xestión-de-sesión-stateless)
         - [Implementación de Criptografía Asimétrica (RSA)](#implementación-de-criptografía-asimétrica-rsa)
         - [Esquema de autenticación](#esquema-de-autenticación)
+        - [Autenticación](#autenticación)
+        - [Autorización](#autorización)
+    - [Persistencia de datos](#persistencia-de-datos)
+        - [Como funciona no proxecto](#como-funciona-no-proxecto)
+        - [Migracions](#migracions)
+            - [Tests e local](#tests-e-local)
 - [Frontend](#frontend)
     - [Creación do proxecto](#creación-do-proxecto)
         - [Estructura inicial](#estructura-inicial)
     - [Intercepción de request](#intercepción-de-request)
+- [Deseño UI](#deseño-ui)
+    - [Sistema de deseño en Figma](#sistema-de-deseño-en-figma)
+        - [Variables primitivas e semánticas](#variables-primitivas-e-semánticas)
+        - [Estilos de texto](#estilos-de-texto)
+        - [Variables de spacing, layout e border](#variables-de-spacing-layout-e-border)
+    - [Implementación en Angular e Tailwind](#implementación-en-angular-e-tailwind)
+    - [Exemplos de pantallas](#exemplos-de-pantallas)
+- [Custos e organización](#custos-e-organización)
+    - [Planificación e seguimento do proxecto](#planificación-e-seguimento-do-proxecto)
+    - [Xestión de tempos e estimación de custo](#xestión-de-tempos-e-estimación-de-custo)
+        - [Xestión do tempo](#xestión-do-tempo)
+        - [Estimación de custo](#estimación-de-custo)
+    - [Impacto](#impacto)
+        - [Que falta para completar a solución](#que-falta-para-completar-a-solución)
 - [Extras](#extras)
-    - [TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación](#todo-a-partir-de-este-punto-eres-libre-de-organizar-la-documentación-como-estimes-pero-debes-desarrollar-el-cuerpo-de-tu-proyecto-con-apartados-y-subapartados-que-completen-tu-documentación)
-    - [Conclusiones](#conclusiones)
+    - [Conclusións](#conclusións)
     - [Referencias, Fuentes consultadas y Recursos externos: Webgrafía](#referencias-fuentes-consultadas-y-recursos-externos-webgrafía)
 ## Introducción
 
@@ -418,21 +437,6 @@ ng serve
 npm install
 ng build
 ```
-
-## Migracions
-
-Para as migracions usarase **Flyway**, o can nos permite gardar un historial dos cambios da nosa base de datos na taboa `/resources/db/migration` e executando os scripts que sean necesarios cada vez que se reinicie a aplicación.
-
-Escollese esta ferramenta antes que depender de **Hibernate** xa que deixa unha traza dos cambios ao longo do tempo en arquivos `.sql,` permitindo facer migracións sen necesidade da aplicación.
-
-### Tests e local
-
-Por defecto, Flyway non permite borrar un arquivo de migración unha vez executado. Para facer probas e non ter que deixar un rastro de arquivos de proba podese executar este comando para resetear o seguimento de flyway e poder borrar arquivos:
-
-```shell
-./mvnw flyway:clean -Dspring.flyway.url=jdbc:postgresql://localhost:5432/myappdb -Dspring.flyway.user=your_user -Dspring.flyway.password=your_password -Dflyway.cleanDisabled=false
-```
-
 ---
 
 # Backend - Springboot
@@ -555,6 +559,30 @@ a transición cara a unha arquitectura de microservizos ou a integración dun si
 
 ![img.png](img/authentication/img.png)
 
+### Autenticación
+
+A aplicación soporta dous métodos de autenticación, ambos detallados no esquema anterior:
+
+* **Autenticación nativa:** rexistro e login con email e contrasinal, validados por `DaoAuthenticationProvider` contra a táboa de usuarios en PostgreSQL (contrasinais encriptados con BCrypt).
+* **Autenticación federada con Google (OAuth 2.0 / OpenID Connect):** o usuario inicia sesión coa súa conta de Google; o frontend recibe un `idToken` que se envía ao backend, onde `GoogleIdTokenVerifier` valida a sinatura e a procedencia directamente coa API de Google. Se é a primeira vez que ese usuario accede, créase a súa conta automaticamente, sen rexistro manual.
+
+Ambos métodos converxen no mesmo punto: unha vez validada a identidade, `TokenService` xera os mesmos tokens JWT (access + refresh) explicados no apartado de Seguridade, polo que o resto da aplicación non distingue por que vía entrou o usuario.
+
+Non se integraron outros provedores federados (Microsoft, Facebook, Apple, Discord...). Escollín só Google por ser o provedor mais relevante para o público obxectivo da aplicación, xa que a maioría dos usuarios xa dispón dunha conta de Google (Android, Gmail); engadir mais provedores aumentaría a complexidade sen achegar un valor claro para o alcance deste proxecto.
+
+### Autorización
+
+A autorización baséase en roles, pero non son globais senón **por club**: un mesmo usuario pode ter un rol distinto en cada club ao que pertence (DONO, EMPREGADO, ENTRENADOR ou MEMBRO), polo que non abondaba cun simple `hasRole()` estático de Spring Security.
+
+Para resolver isto, as accións sensibles (por exemplo crear unha pista) protéxense con `@PreAuthorize`, delegando a comprobación real nun `ClubSecurityEvaluator` personalizado que, en cada petición:
+
+1. Extrae o ID de usuario do JWT.
+2. Extrae o ID de club da propia petición.
+3. Comproba se ese usuario ten o rol necesario nese club concreto, consultando a táboa de membresías en PostgreSQL.
+4. Devolve `true`/`false`; Spring Security responde con `403 Forbidden` se a comprobación falla.
+
+Isto permite expresións declarativas do tipo `@clubSecurity.hasRole(#clubId, 'ADMIN')` directamente nos controladores, mantendo a lóxica de autorización centralizada e reutilizable en lugar de repetir comprobacións manuais en cada endpoint.
+
 ## Persistencia de datos
 
 Escollín **PostgreSQL** por ser unha base de datos relacional robusta, de código aberto e con moi boa integración con Spring Data JPA/Hibernate. Dado que o modelo de datos do proxecto ten relacións complexas entre as entidades (clubs, usuarios, pistas, reservas, regras de prezos...), unha base de datos relacional con soporte completo de transaccións e integridade referencial encaixaba mellor que unha solución NoSQL, onde tería que xestionar manualmente moitas destas relacións e consistencias.
@@ -565,6 +593,21 @@ Escollín **PostgreSQL** por ser unha base de datos relacional robusta, de códi
 * **Migracións:** Os cambios no esquema xestiónanse con Flyway, gardando un historial versionado dos scripts SQL en `/resources/db/migration`, en lugar de deixar que Hibernate xenere ou modifique as táboas automaticamente.
 * **Entorno local:** A base de datos lánzase nun contedor Docker independente (`docker-compose.local.yml`) durante o desenvolvemento.
 * **Produción:** No VPS, o [contedor de PostgreSQL](../docker-compose.yml) só expón o seu porto a `localhost`, sen acceso público dende internet; para administralo remotamente úsase un túnel SSH.
+
+### Migracions
+
+Para as migracions usarase **Flyway**, o can nos permite gardar un historial dos cambios da nosa base de datos na carpeta [/resources/db/migration](../backend/src/main/resources/db/migration/V1__create_initial_schema.sql) e executando os scripts que sean necesarios cada vez que se reinicie a aplicación.
+
+Escollese esta ferramenta antes que depender de **Hibernate** xa que deixa unha traza dos cambios ao longo do tempo en arquivos `.sql,` permitindo facer migracións sen necesidade da aplicación.
+
+#### Tests e local
+
+Por defecto, Flyway non permite borrar un arquivo de migración unha vez executado. Para facer probas e non ter que deixar un rastro de arquivos de proba podese executar este comando para resetear o seguimento de flyway e poder borrar arquivos:
+
+```shell
+./mvnw flyway:clean -Dspring.flyway.url=jdbc:postgresql://localhost:5432/myappdb -Dspring.flyway.user=your_user -Dspring.flyway.password=your_password -Dflyway.cleanDisabled=false
+```
+
 
 ---
 
@@ -619,8 +662,98 @@ O arquivo en cuestión é [auth.interceptor.ts](../frontend/src/app/core/auth/au
 
 ![login_flow.png](img/authentication/frontend_login_flow.png)
 
+---
 
+# Deseño UI
 
+## Sistema de deseño en Figma
+
+Para o [deseño da aplicación](https://www.figma.com/design/jSSnOuIwU3HsVayi8x6sUm/FDS.-Design-tokens?node-id=0-1&t=NMHfjPM0F7GmP1au-1) utilicei Figma, construíndo un sistema de deseño completo baseado en autolayouts, variables e compoñentes, en lugar de deseñar cada pantalla de forma illada. O obxectivo era ter unha interface cohesiva e, sobre todo, facilmente trasladable a código: usando o modo desenvolvedor de Figma, calquera valor (cor, espazado, tipografía...) pode consultarse directamente como variable, sen ter que adiviñar valores a partir do deseño.
+
+![sd.png](img/ui/system_design/sd.png)
+
+### Variables primitivas e semánticas
+
+As variables organízanse en dúas capas:
+
+* **Primitivas:** os valores en bruto da paleta (`brand/100` a `brand/950`, `neutral/100` a `neutral/900`, `negative/700`...). Son só cores, sen significado asociado.
+* **Semánticas:** unha capa de mapeo intencional por riba das primitivas (`content/primary`, `background/brand`, `border/focus`...), que describe **para que se usa** cada valor en vez de **que valor é**.
+
+O beneficio principal desta separación é que o resto do sistema (estilos de texto, compoñentes, código) nunca referencia unha cor primitiva directamente, senón unha semántica. Isto significa que se algún día quero cambiar a cor de marca, só teño que tocar a definición de `brand/700` unha vez, e propágase automaticamente por toda a aplicación sen tocar nin un compoñente. Tamén fai que o código sexa mais lexible: `text-content-negative` explica a intención (texto de erro), mentres que `text-red-700` non dice nada sobre cando se debe usar.
+
+![img.png](img/ui/system_design/variables.png)
+
+### Estilos de texto
+
+Defínense dúas familias tipográficas con roles claros: **Raleway** para texto de corpo (`font-sans`) e **Barlow Condensed** para titulares (`font-brand`), cada unha con escalas de tamaño propias (`Heading 2XS` a `Heading 5XL`, `Text XS` a `Text XL`) e os seus pesos (Semibold/Bold) e interletraxe xa definidos por estilo.
+
+O beneficio aquí é a consistencia: en lugar de que cada compoñente decida o seu propio tamaño de letra ou peso, tanto deseño coma desenvolvemento traballan cos mesmos nomes de estilo ("Heading M Bold"), o que evita inconsistencias visuais e facilita revisar o deseño sen ter que medir píxeles.
+
+![img.png](img/ui/system_design/styles.png)
+
+### Variables de spacing, layout e border
+
+Do mesmo xeito, defínense escalas para espazado (`2xs` a `12xl`), radio de bordo (`2xs`, `xs`, `s`, `m`, `l`, `pill`, `circle`) e grosor de bordo (`xs` a `xl`). Isto elimina os "números maxicos" (un `padding: 13px` solto sen explicación) e garante un ritmo visual consistente en toda a aplicación, ademais de facer moi sinxelo axustar a densidade xeral da interface (por exemplo, facer todo un pouco mais compacto) cambiando só a escala, non cada compoñente individualmente.
+
+## Implementación en Angular e Tailwind
+
+O paso de Figma a código baséase en manter **os mesmos nomes de token** nos dous sitios, para que non haxa que traducir mentalmente entre deseño e implementación.
+
+1. **Primitivas e semánticas como variables CSS**, definidas en `styles.css`:
+```css
+    --primitive-brand-700: #204F8C;
+    --color-content-brand-primary: var(--primitive-brand-700);
+    --color-bg-brand: var(--primitive-brand-700);
+```
+
+2. **Tailwind referenciando esas variables**, en `tailwind.config.js`, de xeito que Tailwind xera clases de utilidade (`text-content-*`, `bg-bg-*`, `border-border-*`...) que apuntan directamente ás variables CSS, e non a valores fixos:
+```js
+    colors: {
+      content: {
+        'primary': 'var(--color-content-primary)',
+        'negative': 'var(--color-content-negative)',
+      },
+      bg: {
+        'brand': 'var(--color-bg-brand)',
+        'brand-hover': 'var(--color-bg-brand-hover)',
+      }
+    }
+```
+Os estilos de texto compostos (familia + tamaño + peso + interletraxe nunha soa clase) defínense como clases de compoñente con prefixo `ds-` (de *design system*), por exemplo `.ds-text-style-heading-m-bold`, e engádense ao `safelist` de Tailwind para que o IDE as autocomplete.
+
+3. **Uso nos compoñentes de Angular**, combinando as clases semánticas de Tailwind coas clases `ds-` de estilo de texto. No compoñente de login, por exemplo:
+```html
+    <h2 class="ds-text-style-heading-m-bold italic text-content-primary">Bienvenido a Arenic</h2>
+    <p class="ds-text-style-text-m-regular text-content-secondary">Inicia sesión para reservar tu pista</p>
+
+    <button
+      class="bg-bg-brand hover:bg-bg-brand-hover active:bg-bg-brand-pressed
+             text-content-primary-inverse ds-text-style-text-m-bold
+             py-m rounded-s ds-transition-theme">
+      Iniciar sesión
+    </button>
+```
+Nótese que nin unha soa cor ou tamaño está escrito como valor literal: todo vén dos tokens (`bg-brand`, `text-content-primary-inverse`, `py-m`, `rounded-s`), polo que un cambio no deseño de Figma (por exemplo, escurecer a cor de marca) chega ao frontend simplemente actualizando unha variable CSS, sen tocar ningún compoñente.
+
+Este enfoque fai que o traspaso de deseño a código sexa case mecánico: o modo desenvolvedor de Figma xa mostra o nome exacto da variable semántica que hai que usar, e ese mesmo nome xa existe coma clase de Tailwind dispoñible no proxecto.
+
+## Exemplos de pantallas
+
+Login:
+
+![img.png](img/ui/system_design/login.png)
+
+Resultados de clubes:
+
+![club_results.png](img/ui/system_design/club_results.png)
+
+Reserva de pista:
+
+![club_booking.png](img/ui/system_design/club_booking.png)
+
+Paxina de presentacion:
+
+![img.png](img/ui/system_design/heropage.png)
 
 
 ---
@@ -675,19 +808,17 @@ Para que a aplicación tivese un impacto real (xa sexa comercial ou simplemente 
 * **Pasarela de pago real:** integración con Stripe ou similar (actualmente fóra de alcance, ver apartado de Alcance).
 
 # Extras
-## TODO: A partir de este punto eres libre de organizar la documentación como estimes pero debes desarrollar el cuerpo de tu proyecto con apartados y subapartados que completen tu documentación
 
-> Hemos elaborado un [checklist](checklist.md) de puntos necesarios para tu PFC, para que revises estas recomendaciones/especificaciones.
-> Apóyate en tu tutor/a si tienes duda de cómo organizar tu proyecto y estos apartados/subapartado. Cada proyecto y su contexto determinará la mejor forma de estructurarlo. Piensa bien cómo lo vas a hacer.
+## Conclusións
 
-## Conclusiones
+Este proxecto supuxo para min un reto tanto técnico como persoal. A nivel técnico, permitiume aprender dende cero un stack que xa se está introducindo na miña empresa (Spring Boot, Angular, Figma), enfrontándome a conceptos cos que non tiña experiencia previa: deseño dunha API REST con autenticación stateless mediante JWT firmados con RSA, modelado dunha base de datos relacional con requisitos de negocio complexos (que tivo que ser replanteada mais dunha vez), estruturación dun backend en monolito modular, e despregue automatizado mediante Docker, GitHub Actions e un VPS propio con SSL.
 
-> Deja esta apartado para el final. Realiza un resumen de todo lo que ha supuesto la realización de tu proyecto. Debe ser una redacción breve. Un resumen de los hitos conseguidos más importantes y de lo aprendido durante el proceso.
-> Puede ser un buen punto de partida para organizar tu presentación y ajustarla al tiempo que tienes.
+Entre os hitos mais importantes destaco ter conseguido un fluxo completo e funcional de busca e reserva de pistas en tempo real, cun sistema de autenticación robusto (login nativo e con Google, refresco de tokens, autorización por roles), e toda a infraestrutura de despregue automatizado funcionando en produción en `arenic.online`.
 
+A nivel de aprendizaxe persoal, a parte mais valiosa non foi técnica senón organizativa: a xestión do tempo foi o punto mais débil do proxecto, e a aplicación quedou incompleta (sen a parte administrativa) por subestimar tanto a curva de aprendizaxe do stack novo como o tempo que pode levar deseñar un sistema de deseño completo en Figma. Isto deixoume claro que, de cara a futuros proxectos, é preferible probar antes un stack novo en proxectos pequenos, apoiarse en librarías xa existentes quando o deseño non é o foco principal, e priorizar sempre ter un MVP sólido antes de pulir detalles.
+
+En definitiva, aínda que o resultado final non chegou a cubrir todo o alcance inicial, o proxecto cumpriu o seu obxectivo principal: servir como punto de partida real para afondar nun stack que vou seguir usando profesionalmente, ao mesmo tempo que demostra un dominio sólido dos fundamentos de desenvolvemento full-stack.
 ## Referencias, Fuentes consultadas y Recursos externos: Webgrafía
-
-> *TODO*: Enlaces externos y descipciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
 
 - [Deploy con Docker y Ubuntu en 5 minutos (y mas) - Nginx y Certbot](https://www.youtube.com/watch?v=Hz_Jr2I_n8w)
 - [Crash course Angular](https://www.youtube.com/watch?v=oUmVFHlwZsI&t=628s)

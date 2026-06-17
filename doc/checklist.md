@@ -4,14 +4,13 @@ Cosas que debes hacer:
 
 - [ ] Asegúrate de que en el fichero [`/doc/doc.md`](doc.md) figure un índice de apartados que faciliten la lectura del documento. **Es obligatorio que haya índice**. Instálate el complemento recomendado [Markdown All in One en Vscode](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) (o busca alternativas) para facilitarte la generación de este índice. En la paleta de comandos de VSCode están las opciones de esta extensión.
 - [ ] Describe todos los **componentes de terceros** que has utilizado con su licencia de uso.
-- [ ] Describe como has gestionado las indentidades en tu solución (**autenticación y autorización**). Si has utilizado sistemas federados para ello o no (Google, Microsoft, Facebook, Apple, Discord...).
-  - [ ] igual incluir algun exemplo no codigo de como limitar acceso?
 - [ ] Asegúrate que has logrado crear una forma de poner en marcha tu solución en un **ambiente de desarrollo** (con por ejemplo con composer, npm, maven, gradle, pip o similar según la tecnología elegida).
 - [ ] Implementa las **interfaces gráficas** de tu solución con interface intuitiva y/o ayudas contextuales (tooltips, asistentes, hints, doc integrada, etc.). Esto sería alternativo a crear un manual de usario.
 - [ ] **Documenta el resto de interfaces (backend)**: Especificación de los endpoints (si usas OpenAPI/Swagger, adjuntar el fichero YAML/JSON o un enlace a la documentación generada.) Ejemplos de uso con curl. Señalar autenticación/autorización (ej.: JWT, API Key).
 - [ ] **No debes** presentar nada que no figure en esta documentación. Tu presentación será una síntesis de lo más relevante o a lo que le quieras dar más peso de tu proyecto. Te recomiendo autocitarte durante tu presentación para que el tribunal pueda tener referencia de lo que le hablas en esta documentación.
 
 ---
+- [x] Describe como has gestionado las indentidades en tu solución (**autenticación y autorización**). Si has utilizado sistemas federados para ello o no (Google, Microsoft, Facebook, Apple, Discord...).
 
 - [x] **Apóyate en un lenguaje de modelado** (UML) para describir gráficamente los aspectos más complejos de tu diseño. Preferiblemente, utiliza [MermaId](https://mermaid.js.org/) para generar estos diagramas que pueden ser de diferentes tipos. En su defecto, y si necesitas incluir otros diagramas generados con otras herramientas, expórtalos a png o jpeg para incluirlos en tu documentación.
 
