@@ -119,6 +119,25 @@ INSERT INTO club_membership_roles(slug, display_name, short_display_name, descri
     ('STAFF',   'Staff',         'Staff',   'Personal del club'),
     ('PLAYER',  'Jugador',       'Jugador', 'Jugador del club');
 
+-- ============================================================
+-- BOOKING REFERENCE DATA
+-- Values must match BookingService hardcoded slugs.
+-- ============================================================
+INSERT INTO booking_statuses (slug, display_name, short_display_name, description) VALUES
+    ('confirmed',  'Confirmada',  'Conf.',    'A reserva está confirmada'),
+    ('pending',    'Pendente',    'Pend.',    'A reserva está pendente de confirmación'),
+    ('cancelled',  'Cancelada',   'Cancel.',  'A reserva foi cancelada'),
+    ('completed',  'Completada',  'Comp.',    'A reserva foi completada');
+
+INSERT INTO booking_types (slug, display_name, short_display_name, description) VALUES
+    ('private',  'Privada',  'Priv.', 'Reserva privada entre participantes'),
+    ('public',   'Pública',  'Pub.',  'Reserva aberta a calquera xogador');
+
+INSERT INTO booking_participation_statuses (slug, display_name, short_display_name, description) VALUES
+    ('pending',   'Pendente',  'Pend.',   'O participante non respondeu aínda'),
+    ('confirmed', 'Confirmado', 'Conf.',  'O participante confirmou a súa asistencia'),
+    ('declined',  'Rexeitado', 'Rexeit.', 'O participante rexeitou a invitación');
+
 INSERT INTO club_memberships (user_id, club_id, club_membership_role_slug)
 SELECT
     (SELECT id FROM users WHERE email = 'admin@arenic.com'),
