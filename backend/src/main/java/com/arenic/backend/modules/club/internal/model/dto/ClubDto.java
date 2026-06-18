@@ -83,6 +83,7 @@ public class ClubDto {
             BigDecimal price,
             BigDecimal memberPrice,
             String currency,
-            String gameMode
+            String gameMode,
+            boolean booked
     ) {}
 }

@@ -41,4 +41,5 @@ export interface SlotEntry {
   memberPrice: number;
   currency: string;
   gameMode: string;
+  booked: boolean;
 }

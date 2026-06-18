@@ -131,6 +131,7 @@ export class ClubDetailComponent implements OnInit {
   }
 
   selectSlot(court: CourtSummary, hour: number, entry: SlotEntry): void {
+    if (entry.booked) return;
     const current = this.selectedSlot();
     if (current?.courtId === court.id && current?.hour === hour) {
       this.selectedSlot.set(null);
@@ -184,6 +185,8 @@ export class ClubDetailComponent implements OnInit {
         this.bookingSuccess.set(true);
         this.bookingLoading.set(false);
         this.selectedSlot.set(null);
+        const id = this.route.snapshot.paramMap.get('id')!;
+        this.loadSlots(id, this.selectedDate());
       },
       error: () => {
         this.bookingLoading.set(false);

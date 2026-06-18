@@ -156,17 +156,26 @@
                 <!-- Time slots -->
                 @for (h of hours; track h.hour) {
                   @if (slotMap().get(court.id)?.get(h.hour); as slotEntry) {
-                    <button
-                      (click)="selectSlot(court, h.hour, slotEntry)"
-                      [ngClass]="{
-                        'bg-bg-brand text-content-primary-inverse border-bg-brand shadow-sm scale-105 z-10': isSelected(court.id, h.hour),
-                        'bg-bg-primary border-border-secondary hover:border-border-focus hover:bg-bg-primary-hover': !isSelected(court.id, h.hour)
-                      }"
-                      class="w-14 h-12 rounded-xs border flex-shrink-0 ds-transition-theme flex flex-col items-center justify-center"
-                    >
-                      <span class="ds-text-style-text-xs-regular leading-none">{{ h.label }}</span>
-                      <span class="ds-text-style-text-xs-semibold leading-none">{{ slotEntry.price }}€</span>
-                    </button>
+                    @if (slotEntry.booked) {
+                      <div class="w-14 h-12 rounded-xs flex-shrink-0 bg-surface-l2 border border-border-secondary flex flex-col items-center justify-center opacity-50 cursor-not-allowed">
+                        <svg class="w-m h-m text-content-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                      </div>
+                    } @else {
+                      <button
+                        (click)="selectSlot(court, h.hour, slotEntry)"
+                        [ngClass]="{
+                          'bg-bg-brand text-content-primary-inverse border-bg-brand shadow-sm scale-105 z-10': isSelected(court.id, h.hour),
+                          'bg-bg-primary border-border-secondary hover:border-border-focus hover:bg-bg-primary-hover': !isSelected(court.id, h.hour)
+                        }"
+                        class="w-14 h-12 rounded-xs border flex-shrink-0 ds-transition-theme flex flex-col items-center justify-center"
+                      >
+                        <span class="ds-text-style-text-xs-regular leading-none">{{ h.label }}</span>
+                        <span class="ds-text-style-text-xs-semibold leading-none">{{ slotEntry.price }}€</span>
+                      </button>
+                    }
                   } @else {
                     <div class="w-14 h-12 rounded-xs flex-shrink-0 bg-surface-l2 flex items-center justify-center opacity-40">
                       <span class="ds-text-style-text-xs-regular text-content-secondary">—</span>
@@ -187,6 +196,10 @@
           <div class="flex items-center gap-xs">
             <div class="w-l h-l rounded-2xs bg-bg-brand"></div>
             <span class="ds-text-style-text-xs-regular text-content-secondary">Seleccionada</span>
+          </div>
+          <div class="flex items-center gap-xs">
+            <div class="w-l h-l rounded-2xs bg-surface-l2 border border-border-secondary opacity-50"></div>
+            <span class="ds-text-style-text-xs-regular text-content-secondary">Reservada</span>
           </div>
           <div class="flex items-center gap-xs">
             <div class="w-l h-l rounded-2xs bg-surface-l2 opacity-40"></div>

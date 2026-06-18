@@ -18,7 +18,7 @@ spring:
 
     locations:
       - classpath:db/migration
-      - classpath:db/migration/devdata
+      - classpath:db/devdata
 
 # 4. Detailed Logging
 logging:
