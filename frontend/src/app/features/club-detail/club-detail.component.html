@@ -1,42 +1,3 @@
-<!--<div class="w-full flex flex-row justify-center">
-  <main class="max-w-public-main flex flex-col gap-4xl py-3xl px-l md:px-4xl grow">
-    &lt;!&ndash; Club name and details header &ndash;&gt;
-    <section class="flex flex-col gap-s">
-      <span class="ds-text-style-text-m-regular text-content-primary">Reserva una pista en</span>
-      <div class="flex flex-col gap-xs">
-        <h2 class="ds-text-style-heading-m-bold italic text-content-brand-primary">Club de los palotes</h2>
-        <span class="ds-text-style-text-m-regular text-content-secondary">Calle de alta gama 56, Madrid</span>
-      </div>
-    </section>
-
-    <div class="inline-grid grid-cols-10 grow gap-xl">
-      &lt;!&ndash; Court reservation &ndash;&gt;
-      <section class="col-span-10 md:col-span-7 bg-blue-50 flex flex-col gap-l">
-        &lt;!&ndash; Day selection &ndash;&gt;
-        <div>
-          <h3 class="ds-text-style-text-m-regular text-content-primary">Selecciona una fecha</h3>
-          <div>
-
-          </div>
-        </div>
-        &lt;!&ndash; Sport selection &ndash;&gt;
-        <div>
-          select a sport
-        </div>
-        &lt;!&ndash; Court and hour selection &ndash;&gt;
-        <div>
-          pick the hour
-        </div>
-      </section>
-
-      &lt;!&ndash; Location and club schedule &ndash;&gt;
-      <aside class="col-span-10 md:col-span-3 bg-blue-300">
-        sdfsdf
-      </aside>
-    </div>
-  </main>
-</div>-->
-
 <div class="min-h-screen bg-bg-primary flex flex-col">
 
   <!-- Header -->
@@ -58,18 +19,6 @@
         <p class="ds-text-style-text-s-regular text-content-secondary">{{ club()!.city }} · {{ club()!.addressLine1 }}</p>
       </div>
     }
-
-    <button
-      (click)="logout()"
-      class="ml-auto flex items-center gap-xs ds-text-style-text-s-regular text-content-secondary hover:text-content-negative ds-transition-theme"
-    >
-      <svg class="w-l h-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        <polyline points="16 17 21 12 16 7"/>
-        <line x1="21" y1="12" x2="9" y2="12"/>
-      </svg>
-      <span>Salir</span>
-    </button>
   </header>
 
   <!-- Loading state -->
