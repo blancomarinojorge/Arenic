@@ -68,13 +68,13 @@ Para o desarrollo en angular e springboot usarase docker para a base de datos e 
 
 Asegúrate de ter instalado o seguinte antes de executar o proxecto:
 
-| Ferramenta | Versión mínima | Descarga |
-|------------|----------------|---------|
-| Java | 21             | [adoptium.net](https://adoptium.net) |
-| Maven | 3.9            | [maven.apache.org](https://maven.apache.org) |
-| Node.js | 22             | [nodejs.org](https://nodejs.org) |
-| Angular CLI | 18             | `npm install -g @angular/cli` |
-| Docker | 24             | [docker.com](https://docker.com) |
+| Ferramenta | Versión mínima |
+|------------|----------------|
+| Java | 21             | 
+| Maven | 3.9            | 
+| Node.js | 22             | 
+| Angular CLI | 18             | 
+| Docker | 24             | 
 
 **1. Base de datos**
 
